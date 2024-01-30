@@ -118,7 +118,6 @@ void loop() {
   }
   #endif
   #ifdef ESP32_DIY_LoRa_A7670
-  Serial.println("ESP32_DIY_LoRa_A7670");
-  delay(3000);
+  A7670_Utils::loop();
   #endif
 }

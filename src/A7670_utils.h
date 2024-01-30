@@ -6,6 +6,8 @@
 namespace A7670_Utils {
 
     void setup();
+    void checkStatus();
+    void loop();
 
 }
 
