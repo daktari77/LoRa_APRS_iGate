@@ -16,11 +16,23 @@
 #include "display.h"
 #include "utils.h"
 
+#ifdef ESP32_DIY_LoRa_A7670
+#define TINY_GSM_MODEM_SIM7600      //The AT instruction of A7670 is compatible with SIM7600 
+#define TINY_GSM_RX_BUFFER 1024     // Set RX buffer to 1Kb
+#define SerialAT Serial1
+#include <TinyGsmClient.h>
+#include <StreamDebugger.h>
+#include "A7670_utils.h"
+StreamDebugger debugger(SerialAT, Serial);
+TinyGsm modem(debugger);
+#endif
 
 Configuration   Config;
 WiFiClient      espClient;
 
-String          versionDate           = "2024.01.28";
+
+
+String          versionDate           = "2024.01.30";
 int             myWiFiAPIndex         = 0;
 int             myWiFiAPSize          = Config.wifiAPs.size();
 WiFi_AP         *currentWiFi          = &Config.wifiAPs[myWiFiAPIndex];
@@ -47,6 +59,9 @@ String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seven
 
 void setup() {
   Serial.begin(115200);
+  #ifdef ESP32_DIY_LoRa_A7670
+  SerialAT.begin(115200, SERIAL_8N1, PIN_RX, PIN_TX);
+  #endif
   #if defined(TTGO_T_LORA32_V2_1) || defined(HELTEC_V2)
   pinMode(batteryPin, INPUT);
   #endif
@@ -69,9 +84,13 @@ void setup() {
   Utils::startServer();
   SYSLOG_Utils::setup();
   BME_Utils::setup();
+  #ifdef ESP32_DIY_LoRa_A7670
+  A7670_Utils::setup();
+  #endif
 }
 
 void loop() {
+  #ifndef ESP32_DIY_LoRa_A7670
   if (stationMode==1 || stationMode==2 ) {          // iGate (1 Only Rx / 2 Rx+Tx)
     WIFI_Utils::checkWiFi();
     if (!espClient.connected()) {
@@ -97,4 +116,9 @@ void loop() {
       DIGI_Utils::loop();
     }
   }
+  #endif
+  #ifdef ESP32_DIY_LoRa_A7670
+  Serial.println("ESP32_DIY_LoRa_A7670");
+  delay(3000);
+  #endif
 }

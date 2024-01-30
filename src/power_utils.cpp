@@ -55,7 +55,7 @@ namespace POWER_Utils {
   }
 
   bool begin(TwoWire &port) {
-    #if defined (TTGO_T_LORA32_V2_1) || defined(HELTEC_V2) || defined(ESP32_DIY_LoRa) || defined(HELTEC_V3) || defined(ESP32_DIY_1W_LoRa)
+    #if defined (TTGO_T_LORA32_V2_1) || defined(HELTEC_V2) || defined(ESP32_DIY_LoRa) || defined(HELTEC_V3) || defined(ESP32_DIY_1W_LoRa) || defined(ESP32_DIY_LoRa_A7670)
     return true;
     #endif
 

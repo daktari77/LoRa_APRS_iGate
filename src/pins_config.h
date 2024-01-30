@@ -11,7 +11,7 @@
 #define HAS_SX126X
 #endif
 
-#if defined(TTGO_T_LORA32_V2_1) || defined(HELTEC_V2) || defined(ESP32_DIY_LoRa) || defined(TTGO_T_Beam_V1_0) || defined(TTGO_T_Beam_V1_2)
+#if defined(TTGO_T_LORA32_V2_1) || defined(HELTEC_V2) || defined(ESP32_DIY_LoRa) || defined(TTGO_T_Beam_V1_0) || defined(TTGO_T_Beam_V1_2) || defined(ESP32_DIY_LoRa_A7670)
 #define HAS_SX127X
 #endif
 
@@ -32,6 +32,25 @@
 #define LORA_CS     18      // GPIO18   - SX1276 CS ---> NSS
 #define LORA_RST    14      // GPIO14   - SX1276 RST
 #define LORA_IRQ    26      // GPIO26   - SX1276 IRQ ---->DIO0
+#endif
+
+#ifdef ESP32_DIY_LoRa_A7670
+#define LORA_SCK    18
+#define LORA_MISO   19
+#define LORA_MOSI   23
+#define LORA_CS     2
+#define LORA_RST    0
+#define LORA_IRQ    32
+
+#define UART_BAUD    115200
+#define PIN_DTR      25
+#define PIN_TX       26
+#define PIN_RX       27
+#define PWR_PIN      4
+#define BAT_ADC      35
+#define BAT_EN       12
+#define PIN_RI       33
+#define RESET        5
 #endif
 
 #ifdef HELTEC_V3
@@ -69,7 +88,7 @@
 
 
 // OLED 
-#if defined(TTGO_T_LORA32_V2_1) || defined(ESP32_DIY_LoRa) || defined(ESP32_DIY_1W_LoRa) || defined(TTGO_T_Beam_V1_0) || defined(TTGO_T_Beam_V1_2) || defined(TTGO_T_Beam_V1_0_SX1268) || defined(TTGO_T_Beam_V1_2_SX1262)
+#if defined(TTGO_T_LORA32_V2_1) || defined(ESP32_DIY_LoRa) || defined(ESP32_DIY_1W_LoRa) || defined(TTGO_T_Beam_V1_0) || defined(TTGO_T_Beam_V1_2) || defined(TTGO_T_Beam_V1_0_SX1268) || defined(TTGO_T_Beam_V1_2_SX1262) || defined(ESP32_DIY_LoRa_A7670)
 #define OLED_SDA    21
 #define OLED_SCL    22
 #define OLED_RESET  -1      // Reset pin # (or -1 if sharing Arduino reset pin)
