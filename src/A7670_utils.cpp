@@ -5,17 +5,6 @@
 #include "utils.h"
 #include "aprs_is_utils.h"
 #include "lora_utils.h"
-/*#include "station_utils.h"
-#include "digi_utils.h"
-#include "wifi_utils.h"
-#include "gps_utils.h"
-
-extern Configuration    Config;
-extern int              stationMode;
-extern uint32_t         lastScreenOn;
-extern int              lastStationModeState;
-extern String           iGateBeaconPacket;*/
-
 
 #define TINY_GSM_MODEM_SIM7600      //The AT instruction of A7670 is compatible with SIM7600 
 #define TINY_GSM_RX_BUFFER 1024     // Set RX buffer to 1Kb
@@ -42,9 +31,7 @@ bool beaconBytesSended  = false;
 bool beaconSended       = false;
 bool stationBeacon      = false;
 
-
-
-
+#if defined(ESP32_DIY_LoRa_A7670)
 namespace A7670_Utils {
 
     bool checkModemOn() {
@@ -221,3 +208,4 @@ namespace A7670_Utils {
         delay(1);
     } 
 }
+#endif

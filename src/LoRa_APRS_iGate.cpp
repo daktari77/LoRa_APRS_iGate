@@ -65,25 +65,25 @@ void setup() {
   WIFI_Utils::setup();
   LoRa_Utils::setup();
   Utils::validateDigiFreqs();
-  #ifdef ESP32_DIY_LoRa_A7670
+  #if defined(ESP32_DIY_LoRa_A7670)
   if (stationMode > 2) {
     stationMode = 2;
   }
   #endif
   iGateBeaconPacket = GPS_Utils::generateBeacon();
   iGateLoRaBeaconPacket = GPS_Utils::generateiGateLoRaBeacon();
-  #ifndef ESP32_DIY_LoRa_A7670
+  #if !defined(ESP32_DIY_LoRa_A7670)
   Utils::startServer();
   #endif
   SYSLOG_Utils::setup();
   BME_Utils::setup();
-  #ifdef ESP32_DIY_LoRa_A7670
+  #if defined(ESP32_DIY_LoRa_A7670)
   A7670_Utils::setup();
   #endif
 }
 
 void loop() {
-  #ifndef ESP32_DIY_LoRa_A7670
+  #if !defined(ESP32_DIY_LoRa_A7670)
   if (stationMode==1 || stationMode==2 ) {          // iGate (1 Only Rx / 2 Rx+Tx)
     WIFI_Utils::checkWiFi();
     if (!espClient.connected()) {
@@ -110,7 +110,7 @@ void loop() {
     }
   }
   #endif
-  #ifdef ESP32_DIY_LoRa_A7670
+  #if defined(ESP32_DIY_LoRa_A7670)
   A7670_Utils::loop();
   #endif
 }
