@@ -80,13 +80,22 @@ namespace GPS_Utils {
 
   String generateBeacon() {
     String stationLatitude, stationLongitude, beaconPacket;
+    #ifdef ESP32_DIY_LoRa_A7670
+    stationLatitude = processLatitudeAPRS(currentWiFi->latitude);
+    stationLongitude = processLongitudeAPRS(currentWiFi->longitude);
+    beaconPacket = Config.callsign + ">APLRG1,WIDE1-1" + ":=" + stationLatitude + "L" + stationLongitude;
+    if (stationMode==1) {
+      beaconPacket += "&";
+    } else {
+      beaconPacket += "a";
+    }
+    beaconPacket += Config.iGateComment;
+    #endif
+    #ifndef ESP32_DIY_LoRa_A7670
     if (stationMode==1 || stationMode==2 || (stationMode==5 && WiFi.status()==WL_CONNECTED && espClient.connected())) {
       stationLatitude = processLatitudeAPRS(currentWiFi->latitude);
       stationLongitude = processLongitudeAPRS(currentWiFi->longitude);
       beaconPacket = Config.callsign + ">APLRG1,WIDE1-1";
-      if (stationMode!=6) {
-        beaconPacket += ",qAC";
-      }
       beaconPacket += ":=" + stationLatitude + "L" + stationLongitude;
       if (stationMode==1) {
         beaconPacket += "&";
@@ -104,6 +113,7 @@ namespace GPS_Utils {
       }
       beaconPacket = Config.callsign + ">APLRG1,WIDE1-1:=" + stationLatitude + "L" + stationLongitude + "#" + Config.digi.comment;
     }
+    #endif
     return beaconPacket;
   }
 

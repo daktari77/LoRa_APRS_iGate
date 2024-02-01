@@ -5,8 +5,11 @@
 
 namespace A7670_Utils {
 
+    bool checkModemOn();
     void setup();
-    void checkStatus();
+    bool checkATResponse(String ATMessage);
+    void APRS_IS_connect();
+    void uploadToAPRSIS(String packet);
     void loop();
 
 }

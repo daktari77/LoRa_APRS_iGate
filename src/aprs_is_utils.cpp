@@ -4,6 +4,7 @@
 #include "aprs_is_utils.h"
 #include "station_utils.h"
 #include "syslog_utils.h"
+#include "A7670_utils.h"
 #include "query_utils.h"
 #include "lora_utils.h"
 #include "digi_utils.h"
@@ -22,6 +23,7 @@ extern String         fourthLine;
 extern String         fifthLine;
 extern String         sixthLine;
 extern String         seventhLine;
+extern bool           stationBeacon;
 
 
 namespace APRS_IS_Utils {
@@ -48,7 +50,7 @@ namespace APRS_IS_Utils {
       Serial.println("Tried: " + String(count) + " FAILED!");
     } else {
       Serial.println("Connected!\n(Server: " + String(Config.aprs_is.server) + " / Port: " + String(Config.aprs_is.port) +")");
-      aprsauth = "user " + Config.callsign + " pass " + Config.aprs_is.passcode + " vers CA2RXU_LoRa_iGate 1.2 filter t/m/" + Config.callsign + "/" + (String)Config.aprs_is.reportingDistance;// + "\r\n"; 
+      aprsauth = "user " + Config.callsign + " pass " + Config.aprs_is.passcode + " vers CA2RXU_LoRa_iGate 1.2 filter t/m/" + Config.callsign + "/" + (String)Config.aprs_is.reportingDistance;
       upload(aprsauth);
       delay(200);
     }
@@ -79,9 +81,9 @@ namespace APRS_IS_Utils {
 
   String createPacket(String packet) {
     if (stationMode>1) {
-      return packet.substring(3, packet.indexOf(":")) + ",qAR," + Config.callsign + packet.substring(packet.indexOf(":"));// + "\n";
+      return packet.substring(3, packet.indexOf(":")) + ",qAR," + Config.callsign + packet.substring(packet.indexOf(":"));
     } else {
-      return packet.substring(3, packet.indexOf(":")) + ",qAO," + Config.callsign + packet.substring(packet.indexOf(":"));// + "\n";
+      return packet.substring(3, packet.indexOf(":")) + ",qAO," + Config.callsign + packet.substring(packet.indexOf(":"));
     }
   }
 
@@ -143,7 +145,14 @@ namespace APRS_IS_Utils {
               display_toggle(true);
             }
             lastScreenOn = millis();
+            #ifdef ESP32_DIY_LoRa_A7670
+            stationBeacon = true;
+            A7670_Utils::uploadToAPRSIS(aprsPacket);
+            stationBeacon = false;            
+            #endif
+            #ifndef ESP32_DIY_LoRa_A7670
             upload(aprsPacket);
+            #endif
             #ifndef TextSerialOutputForApp
             Serial.println("   ---> Uploaded to APRS-IS");
             #endif
@@ -177,8 +186,13 @@ namespace APRS_IS_Utils {
             for(int i = Sender.length(); i < 9; i++) {
               Sender += ' ';
             }
-            String ackPacket = Config.callsign + ">APLRG1,TCPIP,qAC::" + Sender + ":" + ackMessage;// + "\n";
+            String ackPacket = Config.callsign + ">APLRG1,TCPIP,qAC::" + Sender + ":" + ackMessage;;
+            #ifdef ESP32_DIY_LoRa_A7670
+            A7670_Utils::uploadToAPRSIS(ackPacket);
+            #endif
+            #ifndef ESP32_DIY_LoRa_A7670
             upload(ackPacket);
+            #endif
             receivedMessage = AddresseeAndMessage.substring(AddresseeAndMessage.indexOf(":")+1, AddresseeAndMessage.indexOf("{"));
           } else {
             receivedMessage = AddresseeAndMessage.substring(AddresseeAndMessage.indexOf(":")+1);
@@ -194,7 +208,12 @@ namespace APRS_IS_Utils {
             }
             lastScreenOn = millis();
             delay(500);
+            #ifdef ESP32_DIY_LoRa_A7670
+            A7670_Utils::uploadToAPRSIS(queryAnswer);
+            #endif
+            #ifndef ESP32_DIY_LoRa_A7670
             upload(queryAnswer);
+            #endif
             SYSLOG_Utils::log("APRSIS Tx", queryAnswer,0,0,0);
             fifthLine = "APRS-IS ----> APRS-IS";
             sixthLine = Config.callsign;
@@ -226,7 +245,7 @@ namespace APRS_IS_Utils {
     while (espClient.connected()) {
       Utils::checkDisplayInterval();
       Utils::checkBeaconInterval();
-      processLoRaPacket(LoRa_Utils::receivePacket());            
+      processLoRaPacket(LoRa_Utils::receivePacket());
       if (espClient.available()) {
         String aprsisPacket;
         aprsisPacket.concat(espClient.readStringUntil('\r'));

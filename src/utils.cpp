@@ -8,6 +8,7 @@
 #include "battery_utils.h"
 #include "aprs_is_utils.h"
 #include "syslog_utils.h"
+#include "A7670_utils.h"
 #include "pins_config.h"
 #include "wifi_utils.h"
 #include "lora_utils.h"
@@ -43,6 +44,7 @@ extern String               distance;
 extern String               versionDate;
 extern uint32_t             lastWiFiCheck;
 extern bool                 WiFiConnect;
+extern bool                 loggedToAPRSIS;
 
 String name;
 String email;
@@ -60,7 +62,12 @@ namespace Utils {
         if (stationMode==1 || stationMode==2 || (stationMode==5 && WiFi.status() == WL_CONNECTED)) {
             delay(1000);
             status += ",qAC:>https://github.com/richonguzman/LoRa_APRS_iGate " + versionDate;
+            #ifndef ESP32_DIY_LoRa_A7670
             APRS_IS_Utils::upload(status);
+            #endif
+            #ifdef ESP32_DIY_LoRa_A7670
+            A7670_Utils::uploadToAPRSIS(status);
+            #endif
             SYSLOG_Utils::log("APRSIS Tx", status,0,0,0);
         } else {
             delay(5000);
@@ -134,7 +141,13 @@ namespace Utils {
                 beaconPacket += " (Ext V=" + String(BATTERY_Utils::checkExternalVoltage(),2) + "V)";
             }
             if (stationMode==1 || stationMode==2) {
+                #ifndef ESP32_DIY_LoRa_A7670
                 thirdLine = getLocalIP();
+                #endif
+                #ifdef ESP32_DIY_LoRa_A7670
+                secondLine = "---------------------";
+                thirdLine = "<   iGate 4G/LTE    >";
+                #endif
                 if (!Config.bme.active) {
                     fifthLine = "";
                 }
@@ -149,7 +162,14 @@ namespace Utils {
                     sixthLine = "    (Ext V=" + String(BATTERY_Utils::checkExternalVoltage(),2) + "V)";
                 }
                 seventhLine = "     listening...";
+                #ifndef ESP32_DIY_LoRa_A7670
                 APRS_IS_Utils::upload(beaconPacket);
+                #endif
+                #ifdef ESP32_DIY_LoRa_A7670
+                if (loggedToAPRSIS) {
+                    A7670_Utils::uploadToAPRSIS(beaconPacket);
+                }
+                #endif
                 if (Config.igateSendsLoRaBeacons && stationMode==2) { 
                     LoRa_Utils::sendNewPacket("APRS", secondaryBeaconPacket);
                 }
@@ -191,7 +211,7 @@ namespace Utils {
                 if (WiFi.status() == WL_CONNECTED && espClient.connected()) {
                     APRS_IS_Utils::checkStatus();
                     thirdLine = getLocalIP();
-                    show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, "SENDING iGate BEACON", 1000);        
+                    show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, "SENDING iGate BEACON", 1000);
                     #if defined(TTGO_T_LORA32_V2_1) || defined(HELTEC_V2)
                     if (Config.sendBatteryVoltage) { 
                         sixthLine = "     (Batt=" + String(BATTERY_Utils::checkBattery(),2) + "V)";

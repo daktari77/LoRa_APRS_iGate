@@ -76,9 +76,19 @@ namespace WIFI_Utils {
   void setup() {
     if (stationMode==1 || stationMode==2) {
       if (stationMode==1) {
+        #ifndef ESP32_DIY_LoRa_A7670
         Serial.println("stationMode ---> iGate (only Rx)");
+        #endif
+        #ifdef ESP32_DIY_LoRa_A7670
+        Serial.println("stationMode ---> iGate 4G/LTE (only Rx)");
+        #endif
       } else {
+        #ifndef ESP32_DIY_LoRa_A7670
         Serial.println("stationMode ---> iGate (Rx + Tx)");
+        #endif
+        #ifdef ESP32_DIY_LoRa_A7670
+        Serial.println("stationMode ---> iGate 4G/LTE (Rx + Tx)");
+        #endif
       }
       startWiFi();
       btStop();
@@ -91,7 +101,12 @@ namespace WIFI_Utils {
       WiFi.mode(WIFI_OFF);
       btStop();
     } else if (stationMode==5) {
+      #ifndef ESP32_DIY_LoRa_A7670
       Serial.println("stationMode ---> iGate when Wifi/APRS available (DigiRepeater when not)");
+      #endif
+      #ifdef ESP32_DIY_LoRa_A7670
+      Serial.println("stationMode ---> iGate 4G/LTE (Rx + Tx)");
+      #endif
     } else { 
       Serial.println("stationMode ---> NOT VALID, check '/data/igate_conf.json'");
       show_display("------- ERROR -------", "stationMode Not Valid", "change it on : /data/", "igate_conf.json", 0);

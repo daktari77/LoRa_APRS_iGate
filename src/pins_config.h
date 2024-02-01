@@ -46,11 +46,11 @@
 #define PIN_DTR      25
 #define PIN_TX       26
 #define PIN_RX       27
-#define PWR_PIN      4
+#define A7670_PWR_PIN   4
 #define BAT_ADC      35
 #define BAT_EN       12
 #define PIN_RI       33
-#define RESET        5
+#define A7670_ResetPin  5
 #endif
 
 #ifdef HELTEC_V3
