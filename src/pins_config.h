@@ -35,22 +35,21 @@
 #endif
 
 #ifdef ESP32_DIY_LoRa_A7670
-#define LORA_SCK    18
-#define LORA_MISO   19
-#define LORA_MOSI   23
-#define LORA_CS     2
-#define LORA_RST    0
-#define LORA_IRQ    32
+#define LORA_SCK        18
+#define LORA_MISO       19
+#define LORA_MOSI       23
+#define LORA_CS         2
+#define LORA_RST        0
+#define LORA_IRQ        32
 
-#define UART_BAUD    115200
-#define PIN_DTR      25
-#define PIN_TX       26
-#define PIN_RX       27
 #define A7670_PWR_PIN   4
+#define A7670_ResetPin  5
+#define A7670_TX_PIN    26
+#define A7670_RX_PIN    27
+/*#define PIN_DTR      25
 #define BAT_ADC      35
 #define BAT_EN       12
-#define PIN_RI       33
-#define A7670_ResetPin  5
+#define PIN_RI       33*/
 #endif
 
 #ifdef HELTEC_V3

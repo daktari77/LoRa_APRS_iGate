@@ -90,7 +90,7 @@ namespace A7670_Utils {
     }
 
     void setup() {
-        SerialAT.begin(115200, SERIAL_8N1, PIN_RX, PIN_TX);
+        SerialAT.begin(115200, SERIAL_8N1, A7670_RX_PIN, A7670_TX_PIN);
         if (checkModemOn()) {;
             delay(1000);
             //setup_gps();      // if gps active
