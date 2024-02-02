@@ -65,7 +65,7 @@ void setup() {
   WIFI_Utils::setup();
   LoRa_Utils::setup();
   Utils::validateDigiFreqs();
-  #if defined(ESP32_DIY_LoRa_A7670)
+  #ifdef ESP32_DIY_LoRa_A7670
   if (stationMode > 2) {
     stationMode = 2;
   }
@@ -77,7 +77,7 @@ void setup() {
   #endif
   SYSLOG_Utils::setup();
   BME_Utils::setup();
-  #if defined(ESP32_DIY_LoRa_A7670)
+  #ifdef ESP32_DIY_LoRa_A7670
   A7670_Utils::setup();
   #endif
 }
@@ -110,7 +110,7 @@ void loop() {
     }
   }
   #endif
-  #if defined(ESP32_DIY_LoRa_A7670)
+  #ifdef ESP32_DIY_LoRa_A7670
   A7670_Utils::loop();
   #endif
 }
