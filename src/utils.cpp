@@ -113,17 +113,17 @@ namespace Utils {
                 secondaryBeaconPacket = iGateLoRaBeaconPacket + Config.beacon.comment;
             }
 
-            #if defined(TTGO_T_LORA32_V2_1) || defined(HELTEC_V2)
-            if (Config.sendBatteryVoltage) {
-                beaconPacket += " (Batt=" + String(BATTERY_Utils::checkBattery(),2) + "V)";
-                sixthLine = "     (Batt=" + String(BATTERY_Utils::checkBattery(),2) + "V)";
-            }
-            #endif
+            //#if defined(TTGO_T_LORA32_V2_1) || defined(HELTEC_V2)
+            //if (Config.sendBatteryVoltage) {
+            beaconPacket += " (Batt=" + String(BATTERY_Utils::checkBattery(),2) + "V)";
+            sixthLine = "     (Batt=" + String(BATTERY_Utils::checkBattery(),2) + "V)";
+            //}
+            //#endif
 
-            if (Config.externalVoltageMeasurement) { 
-                beaconPacket += " (Ext V=" + String(BATTERY_Utils::checkExternalVoltage(),2) + "V)";
-                sixthLine = "    (Ext V=" + String(BATTERY_Utils::checkExternalVoltage(),2) + "V)";
-            }
+            //if (Config.externalVoltageMeasurement) { 
+            beaconPacket += " (Ext V=" + String(BATTERY_Utils::checkExternalVoltage(),2) + "V)";
+            sixthLine = "    (Ext V=" + String(BATTERY_Utils::checkExternalVoltage(),2) + "V)";
+            //}
 
             if (Config.aprs_is.active && Config.beacon.sendViaAPRSIS) {
                 show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, "SENDING IGATE BEACON", 0); 
