@@ -144,7 +144,7 @@ namespace LoRa_Utils {
         #ifdef HAS_INTERNAL_LED
         digitalWrite(internalLedPin,LOW);
         #endif
-        SYSLOG_Utils::log("Tx", newPacket,0,0,0);
+        SYSLOG_Utils::log("Tx", newPacket,0,0,0);       // mover hacia "success"??
         Serial.print("---> LoRa Packet Tx    : ");
         Serial.println(newPacket);
 
@@ -188,34 +188,6 @@ namespace LoRa_Utils {
             snr       = LoRa.packetSnr();
             freqError = LoRa.packetFrequencyError();
         }
-        #endif
-        #ifdef HAS_SX126X
-        if(operationDone) {
-            operationDone = false;
-            if (transmissionFlag) {
-                radio.startReceive();
-                transmissionFlag = false;
-            } else {
-                int transmissionState = radio.readData(loraPacket);
-                if (transmissionState == RADIOLIB_ERR_NONE) {
-                    if(!loraPacket.isEmpty()) {
-                        Serial.println("LoRa Rx ---> " + loraPacket);
-                    }                
-                    rssi      = radio.getRSSI();
-                    snr       = radio.getSNR();
-                    freqError = radio.getFrequencyError();
-                } else if (transmissionState == RADIOLIB_ERR_RX_TIMEOUT) {
-                    // timeout occurred while waiting for a packet
-                } else if (transmissionState == RADIOLIB_ERR_CRC_MISMATCH) {
-                    Serial.println(F("CRC error!"));
-                } else {
-                    Serial.print(F("failed, code "));
-                    Serial.println(transmissionState);
-                }
-            }
-        }
-        #endif
-
         if ((loraPacket.indexOf("\0")!=-1) || (loraPacket.indexOf("\r")!=-1) || (loraPacket.indexOf("\n")!=-1)) {
             loraPacket = packetSanitization(loraPacket);
         }
@@ -230,6 +202,50 @@ namespace LoRa_Utils {
             SYSLOG_Utils::log("Rx", loraPacket, rssi, snr, freqError);
         }
         return loraPacket;
+        #endif
+        #ifdef HAS_SX126X
+        if(operationDone) {
+            operationDone = false;
+            if (transmissionFlag) {
+                radio.startReceive();
+                transmissionFlag = false;
+            } else {
+                int transmissionState = radio.readData(loraPacket);
+                if (transmissionState == RADIOLIB_ERR_NONE) {
+                    if(!loraPacket.isEmpty()) {
+                        Serial.println("LoRa Rx ---> " + loraPacket);
+                        rssi      = radio.getRSSI();
+                        snr       = radio.getSNR();
+                        freqError = radio.getFrequencyError();
+
+                        if ((loraPacket.indexOf("\0")!=-1) || (loraPacket.indexOf("\r")!=-1) || (loraPacket.indexOf("\n")!=-1)) {
+                            loraPacket = packetSanitization(loraPacket);
+                        }
+
+                        #ifndef TextSerialOutputForApp
+                        Serial.println("(RSSI:" +String(rssi) + " / SNR:" + String(snr) +  " / FreqErr:" + String(freqError) + ")");
+                        #endif
+                        
+                        if (Config.syslog.active && WiFi.status() == WL_CONNECTED) {
+                            SYSLOG_Utils::log("Rx", loraPacket, rssi, snr, freqError);
+                        }
+                        return loraPacket;
+                    }
+                } else if (transmissionState == RADIOLIB_ERR_RX_TIMEOUT) {
+                    // timeout occurred while waiting for a packet
+                } else if (transmissionState == RADIOLIB_ERR_CRC_MISMATCH) {
+                    Serial.println(F("CRC error!"));
+                    if (Config.syslog.active && WiFi.status() == WL_CONNECTED) {
+                        SYSLOG_Utils::log("Rx", "RADIOLIB_ERR_CRC_MISMATCH", rssi, snr, freqError);
+                    }
+                } else {
+                    Serial.print(F("failed, code "));
+                    Serial.println(transmissionState);
+                }
+            }
+        }
+        #endif
+        return "";
     }
 
 }
