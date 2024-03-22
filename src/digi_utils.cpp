@@ -58,7 +58,7 @@ namespace DIGI_Utils {
         if (packet != "") {
             Serial.print("Received Lora Packet   : " + String(packet));
             if (packet.substring(0, 3) == "\x3c\xff\x01") {
-                Serial.println("   ---> APRS LoRa Packet");
+                Serial.println("   ---> APRS LoRa Packet!");
                 Sender = packet.substring(3,packet.indexOf(">"));
                 if (Sender != Config.callsign) {
                     STATION_Utils::updateLastHeard(Sender);

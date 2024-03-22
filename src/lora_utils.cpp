@@ -12,12 +12,12 @@ extern Configuration  Config;
 #if defined(HELTEC_V3) || defined(HELTEC_WS) || defined(TTGO_T_Beam_V1_2_SX1262)
 SX1262 radio = new Module(RADIO_CS_PIN, RADIO_DIO1_PIN, RADIO_RST_PIN, RADIO_BUSY_PIN);
 bool transmissionFlag = true;
-bool enableInterrupt = true;
+bool operationDone = true;
 #endif
 #if defined(ESP32_DIY_1W_LoRa) || defined(TTGO_T_Beam_V1_0_SX1268) || defined(OE5HWN_MeshCom)
 SX1268 radio = new Module(RADIO_CS_PIN, RADIO_DIO1_PIN, RADIO_RST_PIN, RADIO_BUSY_PIN);
 bool transmissionFlag = true;
-bool enableInterrupt = true;
+bool operationDone = true;
 #endif
 
 int rssi, freqError;
@@ -27,9 +27,7 @@ float snr;
 namespace LoRa_Utils {
 
     void setFlag(void) {
-        #ifdef HAS_SX126X
-        transmissionFlag = true;
-        #endif
+        operationDone = true;
     }
 
     void setup() {
@@ -54,8 +52,8 @@ namespace LoRa_Utils {
         #ifdef HAS_SX126X
         SPI.begin(RADIO_SCLK_PIN, RADIO_MISO_PIN, RADIO_MOSI_PIN);
         float freq = (float)Config.loramodule.rxFreq/1000000;
-        int state = radio.begin(freq);
-        if (state == RADIOLIB_ERR_NONE) {
+        int transmissionState = radio.begin(freq);
+        if (transmissionState == RADIOLIB_ERR_NONE) {
             Serial.print("Initializing SX126X LoRa Module");
         } else {
             Serial.println("Starting LoRa failed!");
@@ -71,12 +69,12 @@ namespace LoRa_Utils {
         radio.setRfSwitchPins(RADIO_RXEN, RADIO_TXEN);
         #endif
         #if defined(HELTEC_V3)  || defined(HELTEC_WS) || defined(TTGO_T_Beam_V1_0_SX1268) || defined(TTGO_T_Beam_V1_2_SX1262)
-        state = radio.setOutputPower(Config.loramodule.power + 2); // values available: 10, 17, 22 --> if 20 in tracker_conf.json it will be updated to 22.
+        transmissionState = radio.setOutputPower(Config.loramodule.power + 2); // values available: 10, 17, 22 --> if 20 in tracker_conf.json it will be updated to 22.
         #endif
         #ifdef ESP32_DIY_1W_LoRa_GPS
-        state = radio.setOutputPower(Config.loramodule.power); // max value 20 (when 20dB in setup 30dB in output as 400M30S has Low Noise Amp) 
+        transmissionState = radio.setOutputPower(Config.loramodule.power); // max value 20 (when 20dB in setup 30dB in output as 400M30S has Low Noise Amp) 
         #endif
-        if (state == RADIOLIB_ERR_NONE) {
+        if (transmissionState == RADIOLIB_ERR_NONE) {
             Serial.println("init : LoRa Module    ...     done!");
         } else {
             Serial.println("Starting LoRa failed!");
@@ -130,16 +128,17 @@ namespace LoRa_Utils {
         LoRa.endPacket();
         #endif
         #ifdef HAS_SX126X
-        int state = radio.transmit("\x3c\xff\x01" + newPacket);
-        if (state == RADIOLIB_ERR_NONE) {
+        int transmissionState = radio.transmit("\x3c\xff\x01" + newPacket);
+        transmissionFlag = true;
+        if (transmissionState == RADIOLIB_ERR_NONE) {
             //Serial.println(F("success!"));
-        } else if (state == RADIOLIB_ERR_PACKET_TOO_LONG) {
+        } else if (transmissionState == RADIOLIB_ERR_PACKET_TOO_LONG) {
             Serial.println(F("too long!"));
-        } else if (state == RADIOLIB_ERR_TX_TIMEOUT) {
+        } else if (transmissionState == RADIOLIB_ERR_TX_TIMEOUT) {
             Serial.println(F("timeout!"));
         } else {
             Serial.print(F("failed, code "));
-            Serial.println(state);
+            Serial.println(transmissionState);
         }
         #endif
         #ifdef HAS_INTERNAL_LED
@@ -191,24 +190,28 @@ namespace LoRa_Utils {
         }
         #endif
         #ifdef HAS_SX126X
-        if (transmissionFlag) {
-            transmissionFlag = false;
-            radio.startReceive();
-            int state = radio.readData(loraPacket);
-            if (state == RADIOLIB_ERR_NONE) {
-                if(!loraPacket.isEmpty()) {
-                    Serial.println("LoRa Rx ---> " + loraPacket);
-                }                
-                rssi      = radio.getRSSI();
-                snr       = radio.getSNR();
-                freqError = radio.getFrequencyError();
-            } else if (state == RADIOLIB_ERR_RX_TIMEOUT) {
-                // timeout occurred while waiting for a packet
-            } else if (state == RADIOLIB_ERR_CRC_MISMATCH) {
-                Serial.println(F("CRC error!"));
+        if(operationDone) {
+            operationDone = false;
+            if (transmissionFlag) {
+                radio.startReceive();
+                transmissionFlag = false;
             } else {
-                Serial.print(F("failed, code "));
-                Serial.println(state);
+                int transmissionState = radio.readData(loraPacket);
+                if (transmissionState == RADIOLIB_ERR_NONE) {
+                    if(!loraPacket.isEmpty()) {
+                        Serial.println("LoRa Rx ---> " + loraPacket);
+                    }                
+                    rssi      = radio.getRSSI();
+                    snr       = radio.getSNR();
+                    freqError = radio.getFrequencyError();
+                } else if (transmissionState == RADIOLIB_ERR_RX_TIMEOUT) {
+                    // timeout occurred while waiting for a packet
+                } else if (transmissionState == RADIOLIB_ERR_CRC_MISMATCH) {
+                    Serial.println(F("CRC error!"));
+                } else {
+                    Serial.print(F("failed, code "));
+                    Serial.println(transmissionState);
+                }
             }
         }
         #endif

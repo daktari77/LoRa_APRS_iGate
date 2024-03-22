@@ -134,13 +134,13 @@ namespace APRS_IS_Utils {
             #endif    
             if ((packet.substring(0,3) == "\x3c\xff\x01") && (packet.indexOf("TCPIP") == -1) && (packet.indexOf("NOGATE") == -1) && (packet.indexOf("RFONLY") == -1)) {
                 #ifndef TextSerialOutputForApp
-                Serial.print("   ---> APRS LoRa Packet!");
+                Serial.println("   ---> APRS LoRa Packet!");
                 #endif
                 Sender = packet.substring(3,packet.indexOf(">"));
-                STATION_Utils::updateLastHeard(Sender);
-                //STATION_Utils::updatePacketBuffer(packet);
-                Utils::typeOfPacket(aprsPacket, "LoRa-APRS");
                 if (Sender != Config.callsign) {   // avoid listening yourself by digirepeating
+                    STATION_Utils::updateLastHeard(Sender);
+                    //STATION_Utils::updatePacketBuffer(packet);
+                    Utils::typeOfPacket(aprsPacket, "LoRa-APRS");
                     AddresseeAndMessage = packet.substring(packet.indexOf("::")+2);  
                     Addressee = AddresseeAndMessage.substring(0,AddresseeAndMessage.indexOf(":"));
                     Addressee.trim();
@@ -161,11 +161,11 @@ namespace APRS_IS_Utils {
                         show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
                     }
                 }    
-            } else {
+            } /*else {
                 #ifndef TextSerialOutputForApp
                 Serial.println("   ---> LoRa Packet Ignored (first 3 bytes or TCPIP/NOGATE/RFONLY)\n");
                 #endif
-            }
+            }*/
         }
     }
 
