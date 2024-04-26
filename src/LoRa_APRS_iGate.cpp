@@ -1,6 +1,6 @@
 #include <ElegantOTA.h>
 #include <Arduino.h>
-
+#include <WiFi.h>
 #include <vector>
 #include "configuration.h"
 #include "battery_utils.h"
@@ -28,13 +28,12 @@
 #include <Ethernet.h>
 EthernetClient  espClient;
 #else
-#include <WiFi.h>
 WiFiClient      espClient;
 #endif
 
 Configuration   Config;
 
-String          versionDate             = "2024.04.23";
+String          versionDate             = "2024.04.26";
 uint8_t         myWiFiAPIndex           = 0;
 int             myWiFiAPSize            = Config.wifiAPs.size();
 WiFi_AP         *currentWiFi            = &Config.wifiAPs[myWiFiAPIndex];
@@ -91,7 +90,10 @@ void setup() {
 
     Config.check();
 
-    LoRa_Utils::setup();
+#ifdef ESP32_DIY_LoRa_Ethernet
+    ETHERNET_Utils::setup();        // ver si va antes o despues de LoRa_Utils::setup() por lo de SPI
+#endif
+    /*LoRa_Utils::setup();
     Utils::validateFreqs();
 
     iGateBeaconPacket = GPS_Utils::generateBeacon();
@@ -163,22 +165,18 @@ void setup() {
     }
 #endif
 
-#ifdef ESP32_DIY_LoRa_Ethernet
-    ETHERNET_Utils::setup();        // ver si va antes o despues de LoRa_Utils::setup() por lo de SPI
-#else
     WIFI_Utils::setup();
-#endif
     SYSLOG_Utils::setup();
     BME_Utils::setup();
     WEB_Utils::setup();
     TNC_Utils::setup();
 #ifdef ESP32_DIY_LoRa_A7670
     A7670_Utils::setup();
-#endif
+#endif*/
 }
 
 void loop() {
-    WIFI_Utils::checkIfAutoAPShouldPowerOff();
+    /*WIFI_Utils::checkIfAutoAPShouldPowerOff();
 
     if (isUpdatingOTA) {
         ElegantOTA.loop();
@@ -240,4 +238,4 @@ void loop() {
     STATION_Utils::processLoRaOutputPacketBuffer();
 
     show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
-}
+*/}

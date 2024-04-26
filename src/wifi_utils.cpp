@@ -18,6 +18,7 @@ extern bool           WiFiAutoAPStarted;
 namespace WIFI_Utils {
 
     void checkWiFi() {
+        //???
         #ifndef ESP32_DIY_LoRa_Ethernet
         if ((WiFi.status() != WL_CONNECTED) && ((millis() - previousWiFiMillis) >= 30*1000) && !WiFiAutoAPStarted) {
             Serial.print(millis());
@@ -103,7 +104,7 @@ namespace WIFI_Utils {
     }
 
     void checkIfAutoAPShouldPowerOff() {
-        #ifndef ESP32_DIY_LoRa_Ethernet
+        //#ifndef ESP32_DIY_LoRa_Ethernet
         if (WiFiAutoAPStarted && Config.wifiAutoAP.powerOff > 0) {
             if (WiFi.softAPgetStationNum() > 0) {
                 WiFiAutoAPTime = 0;
@@ -120,7 +121,7 @@ namespace WIFI_Utils {
                 }
             }
         }
-        #endif
+        //#endif
     }
 
     void setup() {

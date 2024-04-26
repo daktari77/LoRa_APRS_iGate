@@ -19,7 +19,10 @@ namespace ETHERNET_Utils {
         pinMode(Ethernet_SCK, OUTPUT);
         SPI.endTransaction();
         Ethernet.init(Ethernet_CS);
-        Ethernet.begin(mac);
+        Serial.println("post init ethernet");
+        if (Ethernet.begin(mac) == 0) {
+            Serial.println("Not Ethernet begin");
+        };
         delay(1000);
         Serial.println(Ethernet.localIP());
     }

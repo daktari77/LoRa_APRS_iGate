@@ -10,7 +10,7 @@
 
 // LORA MODULES
 #if defined(TTGO_T_LORA32_V2_1) || defined(HELTEC_V2) || defined(ESP32_DIY_LoRa) || defined(TTGO_T_Beam_V1_2) || defined(TTGO_T_Beam_V1_0) || defined(TTGO_T_LORA32_V2_1_915) || defined(ESP32_DIY_LoRa_Ethernet)
-#define RADIO_SCLK_PIN  5      // GPIO5    - SX1278 SCK
+#define RADIO_SCLK_PIN  5       // GPIO5    - SX1278 SCK
 #define RADIO_MISO_PIN  19      // GPIO19   - SX1278 MISO
 #define RADIO_MOSI_PIN  27      // GPIO27   - SX1278 MOSI
 #define RADIO_CS_PIN    18      // GPIO18   - SX1278 CS ---> NSS
@@ -151,6 +151,7 @@
 #define BATTERY_PIN         35
 #endif
 #if defined(ESP32_DIY_LoRa_Ethernet)
+// On W5500 Ethernet Module: MOSI=MO, MISO=MI, CS=CS, SCK=SCK, VCC=V, GND=G
 #define Ethernet_SCK        5       // Ethernet_SCK     = Radio_SCK
 #define Ethernet_MISO       19      // Ethernet_MISO    = Radio_MISO
 #define Ethernet_MOSI       27      // Ethernet_MOSI    = Radio_MOSI
