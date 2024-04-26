@@ -75,7 +75,7 @@ namespace TNC_Utils {
                 String sender = frame.substring(0,frame.indexOf(">"));
 
                 if (Config.tnc.acceptOwn || sender != Config.callsign) {
-                    STATION_Utils::addToOutputPacketBuffer(frame);
+                    STATION_Utils::addToLoRaOutputPacketBuffer(frame);
                 } else {
                     Utils::println("Ignored own frame from KISS");
                 }

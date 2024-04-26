@@ -9,8 +9,8 @@ namespace STATION_Utils {
     void deleteNotHeard();
     void updateLastHeard(String station);
     bool wasHeard(String station);
-    void processOutputPacketBuffer();
-    void addToOutputPacketBuffer(String packet);
+    void processLoRaOutputPacketBuffer();
+    void addToLoRaOutputPacketBuffer(String packet);
 
 }
 

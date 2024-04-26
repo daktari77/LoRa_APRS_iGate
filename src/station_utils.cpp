@@ -63,7 +63,7 @@ namespace STATION_Utils {
         return false;
     }
 
-    void processOutputPacketBuffer() {
+    void processLoRaOutputPacketBuffer() {
         int timeToWait = 3 * 1000;      // 3 segs between packet Tx and also Rx ???
         uint32_t lastRx = millis() - lastRxTime;
         uint32_t lastTx = millis() - lastTxTime;
@@ -74,7 +74,7 @@ namespace STATION_Utils {
         }
     }
 
-    void addToOutputPacketBuffer(String packet) {
+    void addToLoRaOutputPacketBuffer(String packet) {
         outputPacketBuffer.push_back(packet);
     }
 

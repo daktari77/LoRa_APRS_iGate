@@ -1,6 +1,6 @@
 #include <ElegantOTA.h>
 #include <Arduino.h>
-#include <WiFi.h>
+
 #include <vector>
 #include "configuration.h"
 #include "battery_utils.h"
@@ -23,9 +23,16 @@
 #include "A7670_utils.h"
 #endif
 
+#ifdef ESP32_DIY_LoRa_Ethernet
+#include "ethernet_utils.h"
+#include <Ethernet.h>
+EthernetClient  espClient;
+#else
+#include <WiFi.h>
+WiFiClient      espClient;
+#endif
 
 Configuration   Config;
-WiFiClient      espClient;
 
 String          versionDate             = "2024.04.23";
 uint8_t         myWiFiAPIndex           = 0;
@@ -134,9 +141,7 @@ void setup() {
                     comment += " Ext=" + String(BATTERY_Utils::checkExternalVoltage(),2) + "V";
                 }
 
-                STATION_Utils::addToOutputPacketBuffer(iGateLoRaBeaconPacket + comment);
-                //LoRa_Utils::sendNewPacket("APRS", iGateLoRaBeaconPacket + comment);
-            
+                STATION_Utils::addToLoRaOutputPacketBuffer(iGateLoRaBeaconPacket + comment);            
                 lastBeacon = time;
             }
 
@@ -158,7 +163,11 @@ void setup() {
     }
 #endif
 
+#ifdef ESP32_DIY_LoRa_Ethernet
+    ETHERNET_Utils::setup();        // ver si va antes o despues de LoRa_Utils::setup() por lo de SPI
+#else
     WIFI_Utils::setup();
+#endif
     SYSLOG_Utils::setup();
     BME_Utils::setup();
     WEB_Utils::setup();
@@ -228,7 +237,7 @@ void loop() {
         APRS_IS_Utils::listenAPRSIS(); // listen received packet from APRSIS
     }
 
-    STATION_Utils::processOutputPacketBuffer();
+    STATION_Utils::processLoRaOutputPacketBuffer();
 
     show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
 }

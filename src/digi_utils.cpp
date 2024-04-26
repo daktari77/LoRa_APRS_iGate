@@ -75,7 +75,7 @@ namespace DIGI_Utils {
                     if (!queryMessage && packet.indexOf("WIDE1-") > 10 && Config.digi.mode == 2) { // If should repeat packet (WIDE1 Digi)
                         loraPacket = generateDigiRepeatedPacket(packet.substring(3));
                         if (loraPacket != "") {
-                            STATION_Utils::addToOutputPacketBuffer(loraPacket);
+                            STATION_Utils::addToLoRaOutputPacketBuffer(loraPacket);
                             display_toggle(true);
                             lastScreenOn = millis();
                         }

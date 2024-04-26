@@ -1,4 +1,4 @@
-#include <WiFi.h>
+
 #include "configuration.h"
 #include "aprs_is_utils.h"
 #include "station_utils.h"
@@ -9,8 +9,18 @@
 #include "display.h"
 #include "utils.h"
 
-extern Configuration        Config;
+#ifdef ESP32_DIY_LoRa_Ethernet
+#include <Ethernet.h>
+#include "ethernet_utils.h"
+extern EthernetClient       espClient;
+extern byte                 mac[];
+#else
+#include <WiFi.h>
 extern WiFiClient           espClient;
+#endif
+
+extern Configuration        Config;
+
 extern uint32_t             lastScreenOn;
 extern String               firstLine;
 extern String               secondLine;
@@ -55,9 +65,7 @@ namespace APRS_IS_Utils {
         }
         else {
             Serial.println("Connected!\n(Server: " + String(Config.aprs_is.server) + " / Port: " + String(Config.aprs_is.port) + ")");
-
             // String filter = "t/m/" + Config.callsign + "/" + (String)Config.aprs_is.reportingDistance;
-
             aprsauth = "user " + Config.callsign + " pass " + Config.aprs_is.passcode + " vers CA2RXU_LoRa_iGate 1.3 filter " + Config.aprs_is.filter;
             upload(aprsauth);
             delay(200);
@@ -66,6 +74,17 @@ namespace APRS_IS_Utils {
 
     void checkStatus() {
         String wifiState, aprsisState;
+        #ifdef ESP32_DIY_LoRa_Ethernet
+        if (Ethernet.begin(mac) == 0) {
+            wifiState = "ET";
+        } else {
+            wifiState = "--";
+            if (!Config.display.alwaysOn) {
+                display_toggle(true);
+            }
+            lastScreenOn = millis();
+        }
+        #else        
         if (WiFi.status() == WL_CONNECTED) {
             wifiState = "OK";
         } else {
@@ -75,6 +94,7 @@ namespace APRS_IS_Utils {
             }
             lastScreenOn = millis();
         }
+        #endif
 
         if (!Config.aprs_is.active) {
             aprsisState = "OFF";
@@ -127,9 +147,9 @@ namespace APRS_IS_Utils {
                 sender += ' ';
             }
             if (Config.beacon.path == "") {
-                STATION_Utils::addToOutputPacketBuffer(Config.callsign + ">APLRG1,RFONLY::" + sender + ":" + ackMessage);
+                STATION_Utils::addToLoRaOutputPacketBuffer(Config.callsign + ">APLRG1,RFONLY::" + sender + ":" + ackMessage);
             } else {
-                STATION_Utils::addToOutputPacketBuffer(Config.callsign + ">APLRG1,RFONLY," + Config.beacon.path + "::" + sender + ":" + ackMessage);
+                STATION_Utils::addToLoRaOutputPacketBuffer(Config.callsign + ">APLRG1,RFONLY," + Config.beacon.path + "::" + sender + ":" + ackMessage);
             }
 
             receivedMessage = packet.substring(packet.indexOf(":") + 1, packet.indexOf("{"));
@@ -141,7 +161,7 @@ namespace APRS_IS_Utils {
             if (!Config.display.alwaysOn) {
                 display_toggle(true);
             }
-            STATION_Utils::addToOutputPacketBuffer(QUERY_Utils::process(receivedMessage, sender, "LoRa"));
+            STATION_Utils::addToLoRaOutputPacketBuffer(QUERY_Utils::process(receivedMessage, sender, "LoRa"));
             lastScreenOn = millis();
             show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, "Callsign = " + sender, "TYPE --> QUERY", 0);
             return true;
@@ -245,7 +265,7 @@ namespace APRS_IS_Utils {
                     Utils::print("Received from APRS-IS  : " + packet);
 
                     if (Config.aprs_is.toRF && STATION_Utils::wasHeard(Addressee)) {
-                        STATION_Utils::addToOutputPacketBuffer(buildPacketToTx(packet));
+                        STATION_Utils::addToLoRaOutputPacketBuffer(buildPacketToTx(packet));
                         display_toggle(true);
                         lastScreenOn = millis();
                         Utils::typeOfPacket(packet, "APRS-LoRa");

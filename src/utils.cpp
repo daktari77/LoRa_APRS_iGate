@@ -53,7 +53,7 @@ namespace Utils {
         if (statusAfterBoot && !Config.beacon.sendViaAPRSIS && Config.beacon.sendViaRF) {
             delay(2000);
             status += ":>https://github.com/richonguzman/LoRa_APRS_iGate " + versionDate;
-            STATION_Utils::addToOutputPacketBuffer(status);
+            STATION_Utils::addToLoRaOutputPacketBuffer(status);
             statusAfterBoot = false;
         }
     }
@@ -141,7 +141,7 @@ namespace Utils {
             if (Config.beacon.sendViaRF) {
                 show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, "SENDING DIGI BEACON", 0);
                 seventhLine = "     listening...";
-                STATION_Utils::addToOutputPacketBuffer(secondaryBeaconPacket);
+                STATION_Utils::addToLoRaOutputPacketBuffer(secondaryBeaconPacket);
             }
 
             lastBeaconTx = millis();
