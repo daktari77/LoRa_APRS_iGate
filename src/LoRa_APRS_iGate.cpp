@@ -23,7 +23,6 @@
 #include "A7670_utils.h"
 #endif
 
-
 Configuration   Config;
 WiFiClient      espClient;
 
@@ -37,7 +36,8 @@ bool            statusAfterBoot         = true;
 bool            beaconUpdate            = true;
 uint32_t        lastBeaconTx            = 0;
 uint32_t        previousWiFiMillis      = 0;
-uint32_t        lastScreenOn            = millis();
+uint32_t        lastScreenOn;
+bool            displayState          = true;
 
 uint32_t        lastWiFiCheck           = 0;
 bool            WiFiConnect             = true;

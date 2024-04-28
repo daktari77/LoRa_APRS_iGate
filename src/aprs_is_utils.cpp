@@ -73,7 +73,9 @@ namespace APRS_IS_Utils {
             if (!Config.display.alwaysOn) {
                 display_toggle(true);
             }
-            lastScreenOn = millis();
+            if (Config.display.alwaysOn) {
+                lastScreenOn = millis();
+            }
         }
 
         if (!Config.aprs_is.active) {
@@ -84,6 +86,9 @@ namespace APRS_IS_Utils {
                 aprsisState = "OK";
             } else {
                 aprsisState = "--";
+            }
+            if (Config.display.alwaysOn) {
+                lastScreenOn = millis();
             }
             #else
             if (espClient.connected()) {
@@ -142,7 +147,9 @@ namespace APRS_IS_Utils {
                 display_toggle(true);
             }
             STATION_Utils::addToOutputPacketBuffer(QUERY_Utils::process(receivedMessage, sender, "LoRa"));
-            lastScreenOn = millis();
+            if (Config.display.alwaysOn) {
+                lastScreenOn = millis();
+            }
             show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, "Callsign = " + sender, "TYPE --> QUERY", 0);
             return true;
         }
@@ -173,7 +180,9 @@ namespace APRS_IS_Utils {
                             if (!Config.display.alwaysOn) {
                                 display_toggle(true);
                             }
-                            lastScreenOn = millis();
+                            if (Config.display.alwaysOn) {
+                                lastScreenOn = millis();
+                            }
                             #ifdef ESP32_DIY_LoRa_A7670
                             stationBeacon = true;
                             A7670_Utils::uploadToAPRSIS(aprsPacket);
@@ -225,7 +234,9 @@ namespace APRS_IS_Utils {
                         if (!Config.display.alwaysOn) {
                             display_toggle(true);
                         }
-                        lastScreenOn = millis();
+                        if (Config.display.alwaysOn) {
+                            lastScreenOn = millis();
+                        }
                         delay(500);
                         #ifdef ESP32_DIY_LoRa_A7670
                         A7670_Utils::uploadToAPRSIS(queryAnswer);
@@ -247,7 +258,9 @@ namespace APRS_IS_Utils {
                     if (Config.aprs_is.toRF && STATION_Utils::wasHeard(Addressee)) {
                         STATION_Utils::addToOutputPacketBuffer(buildPacketToTx(packet));
                         display_toggle(true);
-                        lastScreenOn = millis();
+                        if (Config.display.alwaysOn) {
+                            lastScreenOn = millis();
+                        }
                         Utils::typeOfPacket(packet, "APRS-LoRa");
                     }
                 }

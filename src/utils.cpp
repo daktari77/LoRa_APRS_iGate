@@ -25,6 +25,7 @@ extern String               sixthLine;
 extern String               seventhLine;
 extern uint32_t             lastBeaconTx;
 extern uint32_t             lastScreenOn;
+extern bool                 displayState;
 extern bool                 beaconUpdate;
 extern String               iGateBeaconPacket;
 extern String               iGateLoRaBeaconPacket;
@@ -145,7 +146,9 @@ namespace Utils {
             }
 
             lastBeaconTx = millis();
-            lastScreenOn = millis();
+            if (Config.display.alwaysOn) {
+                lastScreenOn = millis();
+            }
             beaconUpdate = false;
         }
 
@@ -155,9 +158,11 @@ namespace Utils {
     }
 
     void checkDisplayInterval() {
-        uint32_t lastDisplayTime = millis() - lastScreenOn;
-        if (!Config.display.alwaysOn) {
-            if (lastDisplayTime >= Config.display.timeout*1000) {
+        uint32_t lastDisplayTime = millis() - (lastScreenOn + (Config.display.timeout * 1000));
+    
+        if (!Config.display.alwaysOn && millis() > (Config.display.timeout * 1000)) {
+            if (lastDisplayTime <= millis() && displayState) {
+                displayState = false;
                 display_toggle(false);
             }
         }
