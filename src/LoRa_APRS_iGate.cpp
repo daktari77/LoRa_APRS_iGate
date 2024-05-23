@@ -124,13 +124,72 @@ void setup() {
     Utils::checkRebootMode();
 
     //
-    /*Serial.println(Config.battery.sendInternalVoltage);
+    /*Serial.println(Config.callsign);
+    Serial.println(Config.wifiAPs[0].ssid);
+    Serial.println(Config.wifiAPs[0].password);
+    Serial.println(" ");
+    Serial.println(Config.aprs_is.active);
+    Serial.println(Config.aprs_is.passcode);
+    Serial.println(Config.aprs_is.server);
+    Serial.println(Config.aprs_is.port);
+    Serial.println(Config.aprs_is.filter);
+    Serial.println(Config.aprs_is.messagesToRF);
+    Serial.println(Config.aprs_is.objectsToRF);
+    Serial.println(" ");
+    Serial.println(Config.beacon.latitude);
+    Serial.println(Config.beacon.longitude);
+    Serial.println(Config.beacon.comment);
+    Serial.println(Config.beacon.overlay);
+    Serial.println(Config.beacon.symbol);
+    Serial.println(Config.beacon.interval);
+    Serial.println(Config.beacon.sendViaRF);
+    Serial.println(Config.beacon.sendViaAPRSIS);
+    Serial.println(Config.beacon.path);
+    Serial.println(" ");
+    Serial.println(Config.digi.mode);
+    Serial.println(" ");
+    Serial.println(Config.lora.txFreq);
+    Serial.println(Config.lora.rxFreq);
+    Serial.println(Config.lora.txActive);
+    Serial.println(Config.lora.rxActive);
+    Serial.println(Config.lora.spreadingFactor);
+    Serial.println(Config.lora.signalBandwidth);
+    Serial.println(Config.lora.codingRate4);
+    Serial.println(Config.lora.power);
+    Serial.println(" ");
+    Serial.println(Config.display.alwaysOn);
+    Serial.println(Config.display.timeout);
+    Serial.println(Config.display.turn180);
+    Serial.println(" ");
+    Serial.println(Config.battery.sendInternalVoltage);
     Serial.println(Config.battery.sendExternalVoltage);
     Serial.println(Config.battery.externalVoltagePin);
     Serial.println(Config.battery.internalMonitor);
     Serial.println(Config.battery.internalSleepVoltage);
     Serial.println(Config.battery.externalMonitor);
-    Serial.println(Config.battery.externalSleepVoltage);*/
+    Serial.println(Config.battery.externalSleepVoltage);
+    Serial.println(" ");
+    Serial.println(Config.bme.active);
+    Serial.println(Config.bme.heightCorrection);
+    Serial.println(Config.bme.temperatureCorrection);
+    Serial.println(" ");
+    Serial.println(Config.syslog.active);
+    Serial.println(Config.syslog.server);
+    Serial.println(Config.syslog.port);
+    Serial.println(" ");
+    Serial.println(Config.tnc.enableServer);
+    Serial.println(Config.tnc.enableSerial);
+    Serial.println(Config.tnc.acceptOwn);
+    Serial.println(" ");
+    Serial.println(Config.ota.username);
+    Serial.println(Config.ota.password);
+    Serial.println(" ");
+    Serial.println(Config.reload);
+    Serial.println(Config.rememberStationTime);
+    Serial.println(Config.lowPowerMode);
+    Serial.println(Config.lowVoltageCutOff);
+    Serial.println(Config.rebootMode);
+    Serial.println(Config.rebootModeTime);*/
     //
 }
 
