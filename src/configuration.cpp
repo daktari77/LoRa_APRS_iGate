@@ -24,8 +24,6 @@ void Configuration::writeFile() {
         for (int i = 0; i < wifiAPs.size(); i++) {
             data["wifi"]["AP"][i]["ssid"] = wifiAPs[i].ssid;
             data["wifi"]["AP"][i]["password"] = wifiAPs[i].password;
-            // data["wifi"]["AP"][i]["latitude"] = wifiAPs[i].latitude;
-            // data["wifi"]["AP"][i]["longitude"] = wifiAPs[i].longitude;
         }
     }
 
@@ -33,18 +31,9 @@ void Configuration::writeFile() {
     data["wifi"]["autoAP"]["powerOff"]      = wifiAutoAP.powerOff;
 
     data["callsign"]                        = callsign;
-    // data["stationMode"] = stationMode; // only check for config version
-    // data["iGateComment"] = iGateComment;
-
-    // data["other"]["beaconInterval"] = beaconInterval;
-    // data["other"]["igateSendsLoRaBeacons"] = igateSendsLoRaBeacons;
-    // data["other"]["igateRepeatsLoRaPackets"] = igateRepeatsLoRaPackets;
     data["other"]["rememberStationTime"]    = rememberStationTime;
 
     data["digi"]["mode"]                    = digi.mode;
-    // data["digi"]["comment"] = digi.comment;
-    // data["digi"]["latitude"] = digi.latitude;
-    // data["digi"]["longitude"] = digi.longitude;
 
     data["tnc"]["enableServer"]             = tnc.enableServer;
     data["tnc"]["enableSerial"]             = tnc.enableSerial;
@@ -55,14 +44,11 @@ void Configuration::writeFile() {
     data["aprs_is"]["server"]               = aprs_is.server;
     data["aprs_is"]["port"]                 = aprs_is.port;
     data["aprs_is"]["filter"]               = aprs_is.filter;
-    //data["aprs_is"]["toRF"] = aprs_is.toRF;
     data["aprs_is"]["messagesToRF"]         = aprs_is.messagesToRF;
     data["aprs_is"]["objectsToRF"]          = aprs_is.objectsToRF;
     
 
     data["beacon"]["comment"]               = beacon.comment;
-    // data["beacon"]["igateRepeatsLoRaPackets"] = beacon.igateRepeatsLoRaPackets;
-    // data["beacon"]["igateSendsLoRaBeacons"] = beacon.igateSendsLoRaBeacons;
     data["beacon"]["interval"]              = beacon.interval;
     data["beacon"]["latitude"]              = beacon.latitude;
     data["beacon"]["longitude"]             = beacon.longitude;
@@ -72,9 +58,6 @@ void Configuration::writeFile() {
     data["beacon"]["sendViaRF"]             = beacon.sendViaRF;
     data["beacon"]["path"]                  = beacon.path;
 
-    // data["lora"]["iGateFreq"] = lora.iGateFreq;
-    // data["lora"]["digirepeaterTxFreq"] = lora.digirepeaterTxFreq;
-    // data["lora"]["digirepeaterRxFreq"] = lora.digirepeaterRxFreq;
     data["lora"]["rxFreq"]                  = lora.rxFreq;
     data["lora"]["txFreq"]                  = lora.txFreq;
     data["lora"]["spreadingFactor"]         = lora.spreadingFactor;
@@ -205,8 +188,6 @@ bool Configuration::readFile() {
             beacon.overlay                    = data["beacon"]["overlay"].as<String>();
             beacon.symbol                     = data["beacon"]["symbol"].as<String>();
             beacon.interval                   = data["beacon"]["interval"].as<int>();
-            // beacon.igateSendsLoRaBeacons      = data["beacon"]["igateSendsLoRaBeacons"].as<bool>();
-            // beacon.igateRepeatsLoRaPackets    = data["beacon"]["igateRepeatsLoRaPackets"].as<bool>();
             beacon.sendViaAPRSIS              = data["beacon"]["sendViaAPRSIS"].as<bool>();
             beacon.sendViaRF                  = data["beacon"]["sendViaRF"].as<bool>();
             beacon.path                       = data["beacon"]["path"].as<String>();
@@ -215,7 +196,6 @@ bool Configuration::readFile() {
 
             aprs_is.active                    = data["aprs_is"]["active"].as<bool>();
             aprs_is.filter                    = data["aprs_is"]["filter"].as<String>();
-            //aprs_is.toRF                      = data["aprs_is"]["toRF"].as<bool>();
             aprs_is.messagesToRF              = data["aprs_is"]["messagesToRF"].as<bool>();
             aprs_is.objectsToRF               = data["aprs_is"]["objectsToRF"].as<bool>();
 
@@ -228,8 +208,6 @@ bool Configuration::readFile() {
 
             String iGateComment             = data["iGateComment"].as<String>();
             int beaconInterval              = data["other"]["beaconInterval"].as<int>();
-            // bool igateSendsLoRaBeacons      = data["other"]["igateSendsLoRaBeacons"].as<bool>();
-            // bool igateRepeatsLoRaPackets    = data["other"]["igateRepeatsLoRaPackets"].as<bool>();
 
             long iGateFreq                  = data["lora"]["iGateFreq"].as<long>();
             long digirepeaterTxFreq         = data["lora"]["digirepeaterTxFreq"].as<long>();
@@ -242,8 +220,7 @@ bool Configuration::readFile() {
             beacon.latitude = digiLatitude;
             beacon.longitude = digiLongitude;
             beacon.interval = beaconInterval;
-            // beacon.igateSendsLoRaBeacons = igateSendsLoRaBeacons;
-            // beacon.igateRepeatsLoRaPackets = igateRepeatsLoRaPackets;
+
             lora.txFreq = digirepeaterTxFreq;
             lora.rxFreq = digirepeaterRxFreq;
             lora.rxActive = true;
@@ -295,58 +272,46 @@ void Configuration::init() {
     WiFi_AP wifiap;
     wifiap.ssid                 = "";
     wifiap.password             = "";
-    // wifiap.latitude               = 0.0; // deprecated
-    // wifiap.longitude              = 0.0; // deprecated
+
     wifiAPs.push_back(wifiap);
 
     wifiAutoAP.password         = "1234567890";
     wifiAutoAP.powerOff         = 15;
 
     callsign                    = "N0CALL";
-    // stationMode = 1; // deprecated
-    // iGateComment = "LoRa_APRS_iGate Development"; // deprecated
 
-    beacon.comment              = "LoRa APRS"; // new
-    beacon.latitude             = 0.0; // new
-    beacon.longitude            = 0.0; // new
-    beacon.interval             = 15; // new
-    // beacon.igateRepeatsLoRaPackets = false; // new
-    // beacon.igateSendsLoRaBeacons = false; // new
-    beacon.overlay              = "L"; // new
-    beacon.symbol               = "#"; // new
-    beacon.sendViaAPRSIS        = true; // new
-    beacon.sendViaRF            = false; // new
-    beacon.path                 = "WIDE1-1"; // new
+    beacon.comment              = "LoRa APRS";
+    beacon.latitude             = 0.0;
+    beacon.longitude            = 0.0;
+    beacon.interval             = 15;
+    beacon.overlay              = "L";
+    beacon.symbol               = "#";
+    beacon.sendViaAPRSIS        = true;
+    beacon.sendViaRF            = false;
+    beacon.path                 = "WIDE1-1";
     
-    digi.mode = 0; // new
-    // digi.comment = "LoRa_APRS_iGate Development"; // deprecated
-    // digi.latitude = 0.0; // deprecated
-    // digi.longitude = 0.0; // deprecated
+    digi.mode = 0;
 
     tnc.enableServer            = false;
     tnc.enableSerial            = false;
     tnc.acceptOwn               = false;
 
-    aprs_is.active              = false; // new
+    aprs_is.active              = false;
     aprs_is.passcode            = "XYZVW";
     aprs_is.server              = "rotate.aprs2.net";
     aprs_is.port                = 14580;
-    aprs_is.filter              = "m/10"; // new
-    //aprs_is.toRF                = false; // new
+    aprs_is.filter              = "m/10";
     aprs_is.messagesToRF        = false;
     aprs_is.objectsToRF         = false;
 
-    // lora.iGateFreq = 433775000; // deprecated
-    // lora.digirepeaterTxFreq = 433775000; // deprecated
-    // lora.digirepeaterRxFreq = 433900000; // deprecated
-    lora.txFreq           = 433775000; // new
-    lora.rxFreq           = 433775000; // new
+    lora.txFreq           = 433775000;
+    lora.rxFreq           = 433775000;
     lora.spreadingFactor  = 12;
     lora.signalBandwidth  = 125000;
     lora.codingRate4      = 5;
     lora.power            = 20;
-    lora.txActive         = false; // new
-    lora.rxActive         = true; // new
+    lora.txActive         = false;
+    lora.rxActive         = true;
 
     display.alwaysOn            = true;
     display.timeout             = 4;
@@ -363,9 +328,6 @@ void Configuration::init() {
     ota.username                = "";
     ota.password                = "";
 
-    // beaconInterval = 15; // deprecated
-    // igateSendsLoRaBeacons = false; // deprecated
-    // igateRepeatsLoRaPackets = false; // deprecated
     rememberStationTime             = 30;
 
     lowPowerMode                    = false;
