@@ -47,7 +47,6 @@ void Configuration::writeFile() {
     data["aprs_is"]["messagesToRF"]         = aprs_is.messagesToRF;
     data["aprs_is"]["objectsToRF"]          = aprs_is.objectsToRF;
     
-
     data["beacon"]["comment"]               = beacon.comment;
     data["beacon"]["interval"]              = beacon.interval;
     data["beacon"]["latitude"]              = beacon.latitude;
