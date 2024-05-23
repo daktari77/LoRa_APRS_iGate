@@ -124,7 +124,7 @@ namespace Utils {
             secondaryBeaconPacket += Config.beacon.comment;
 
             #ifdef BATTERY_PIN
-                if (Config.sendBatteryVoltage) {
+                if (Config.battery.sendInternalVoltage) {
                     String batteryInfo = "Batt=" + String(BATTERY_Utils::checkBattery(),2) + "V";
                     beaconPacket += " " + batteryInfo;
                     secondaryBeaconPacket += " " + batteryInfo;
@@ -132,7 +132,7 @@ namespace Utils {
                 }
             #endif
 
-            if (Config.externalVoltageMeasurement) {
+            if (Config.battery.sendExternalVoltage) {
                 String externalVoltage = String(BATTERY_Utils::checkExternalVoltage(),2) + "V";
                 beaconPacket += " Ext=" + externalVoltage;
                 secondaryBeaconPacket += " Ext=" + externalVoltage;

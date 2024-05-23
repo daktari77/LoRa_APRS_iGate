@@ -120,16 +120,16 @@ namespace POWER_Utils {
             PMU.setSysPowerDownVoltage(2600);
         #endif
 
-        #ifdef BATTERY_PIN
-            pinMode(BATTERY_PIN, INPUT);
-        #endif
-
         #ifdef INTERNAL_LED_PIN
             pinMode(INTERNAL_LED_PIN, OUTPUT);
         #endif
 
-        if (Config.externalVoltageMeasurement) {
-            pinMode(Config.externalVoltagePin, INPUT);
+        #ifdef BATTERY_PIN
+            pinMode(BATTERY_PIN, INPUT);
+        #endif
+
+        if (Config.battery.sendExternalVoltage) {
+            pinMode(Config.battery.externalVoltagePin, INPUT);
         }
 
         #ifdef VEXT_CTRL

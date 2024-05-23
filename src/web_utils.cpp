@@ -172,12 +172,6 @@ namespace WEB_Utils {
         // Config.igateSendsLoRaBeacons = request->hasParam("other.igateSendsLoRaBeacons", true);
         // Config.igateRepeatsLoRaPackets = request->hasParam("other.igateRepeatsLoRaPackets", true);
         Config.rememberStationTime          = request->getParam("other.rememberStationTime", true)->value().toInt();
-        Config.sendBatteryVoltage           = request->hasParam("other.sendBatteryVoltage", true);
-        Config.externalVoltageMeasurement   = request->hasParam("other.externalVoltageMeasurement", true);
-
-        if (Config.externalVoltageMeasurement) {
-            Config.externalVoltagePin   = request->getParam("other.externalVoltagePin", true)->value().toInt();
-        }
 
         Config.rebootMode                   = request->hasParam("other.rebootMode", true);
         Config.rebootModeTime               = request->getParam("other.rebootModeTime", true)->value().toInt();
@@ -186,6 +180,13 @@ namespace WEB_Utils {
         Config.lowVoltageCutOff             = request->getParam("other.lowVoltageCutOff", true)->value().toDouble();
 
         Config.backupDigiMode               = request->hasParam("other.backupDigiMode", true);
+
+        Config.battery.sendInternalVoltage  = request->hasParam("battery.sendInternalVoltage", true);
+        Config.battery.sendExternalVoltage  = request->hasParam("battery.sendExternalVoltage", true);
+
+        if (Config.battery.sendExternalVoltage) {
+            Config.battery.externalVoltagePin = request->getParam("battery.externalVoltagePin", true)->value().toInt();
+        }
 
         if (Config.bme.active) {
             Config.beacon.symbol = "_";

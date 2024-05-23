@@ -64,7 +64,7 @@ namespace BATTERY_Utils {
         int sample;
         int sampleSum = 0;
         for (int i = 0; i < 100; i++) {
-            sample = analogRead(Config.externalVoltagePin);
+            sample = analogRead(Config.battery.externalVoltagePin);
             sampleSum += sample;
             delayMicroseconds(50); 
         }
@@ -88,4 +88,12 @@ namespace BATTERY_Utils {
         }
     }
 
+    void checkBatteryHealth() {
+        if (Config.battery.internalMonitor) {
+            //medir interna y ver si dormir
+        }
+        if (Config.battery.externalMonitor) {
+            //medir externa y ver si dormir
+        }
+    }
 }

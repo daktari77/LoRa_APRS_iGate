@@ -65,11 +65,17 @@
         "username": "",
         "password": ""
     },
+    "battery": {
+        "sendInternalVoltage": false,
+        "sendExternalVoltage": false,
+        "externalVoltagePin": 34,
+        "internalMonitor": false,
+        "internalSleepVoltage": 0.0,
+        "externalMonitor": false,
+        "externalSleepVoltage": 0.0
+    },
     "other": {
         "rememberStationTime": 30,
-        "sendBatteryVoltage": false,
-        "externalVoltageMeasurement": false,
-        "externalVoltagePin": 34,
         "lowPowerMode": false,
         "lowVoltageCutOff": 0,
         "backupDigiMode": false,

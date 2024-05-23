@@ -60,6 +60,7 @@ String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seven
 void setup() {
     Serial.begin(115200);
     POWER_Utils::setup();
+    BATTERY_Utils::checkBatteryHealth();
     Utils::setupDisplay();
     Config.check();
     LoRa_Utils::setup();
@@ -111,6 +112,7 @@ void setup() {
             Config.loramodule.rxActive = false;
         }
     #endif
+
     WIFI_Utils::setup();
     SYSLOG_Utils::setup();
     BME_Utils::setup();

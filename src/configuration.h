@@ -102,7 +102,16 @@ public:
     String  password;
 };
 
-
+class BATTERY {
+public:
+    bool    sendInternalVoltage;
+    bool    sendExternalVoltage;
+    int     externalVoltagePin;
+    bool    internalMonitor;
+    float   internalSleepVoltage;
+    bool    externalMonitor;
+    float   externalSleepVoltage;
+};
 
 
 class Configuration {
@@ -115,26 +124,24 @@ public:
     // bool                  igateSendsLoRaBeacons; // deprecated
     // bool                  igateRepeatsLoRaPackets; // deprecated
     int                     rememberStationTime;
-    bool                    sendBatteryVoltage;
-    bool                    externalVoltageMeasurement;
-    int                     externalVoltagePin;
     bool                    lowPowerMode;
     double                  lowVoltageCutOff;
-    bool                    backupDigiMode;
-    bool                    rebootMode;
-    int                     rebootModeTime;
+    bool                    backupDigiMode; // new
+    bool                    rebootMode;     // new
+    int                     rebootModeTime; // new
     std::vector<WiFi_AP>    wifiAPs;
     WiFi_Auto_AP            wifiAutoAP;
-    Beacon                  beacon; // new
+    Beacon                  beacon;         // new
     DIGI                    digi;
-    TNC                     tnc; // new
+    TNC                     tnc;            // new
     APRS_IS                 aprs_is;
     LoraModule              loramodule;
     Display                 display;
     SYSLOG                  syslog;
     BME                     bme;
     OTA                     ota;
-  
+    BATTERY                 battery;        // new
+    
     void init();
     void writeFile();
     void check();

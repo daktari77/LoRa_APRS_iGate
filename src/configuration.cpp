@@ -40,9 +40,6 @@ void Configuration::writeFile() {
     // data["other"]["igateSendsLoRaBeacons"] = igateSendsLoRaBeacons;
     // data["other"]["igateRepeatsLoRaPackets"] = igateRepeatsLoRaPackets;
     data["other"]["rememberStationTime"]    = rememberStationTime;
-    data["other"]["sendBatteryVoltage"]     = sendBatteryVoltage;
-    data["other"]["externalVoltageMeasurement"] = externalVoltageMeasurement;
-    data["other"]["externalVoltagePin"]     = externalVoltagePin;
 
     data["digi"]["mode"]                    = digi.mode;
     // data["digi"]["comment"] = digi.comment;
@@ -110,6 +107,14 @@ void Configuration::writeFile() {
     data["other"]["rebootMode"]             = rebootMode;
     data["other"]["rebootModeTime"]         = rebootModeTime;
 
+    data["battery"]["sendInternalVoltage"]  = battery.sendInternalVoltage;
+    data["battery"]["sendExternalVoltage"]  = battery.sendExternalVoltage;
+    data["battery"]["externalVoltagePin"]   = battery.externalVoltagePin;
+    data["battery"]["internalMonitor"]      = battery.internalMonitor;
+    data["battery"]["internalSleepVoltage"] = battery.internalSleepVoltage;
+    data["battery"]["externalMonitor"]      = battery.externalMonitor;
+    data["battery"]["externalSleepVoltage"] = battery.externalSleepVoltage;
+
     serializeJson(data, configFile);
 
     configFile.close();
@@ -144,9 +149,6 @@ bool Configuration::readFile() {
 
         callsign                        = data["callsign"].as<String>();
         rememberStationTime             = data["other"]["rememberStationTime"].as<int>();
-        sendBatteryVoltage              = data["other"]["sendBatteryVoltage"].as<bool>();
-        externalVoltageMeasurement      = data["other"]["externalVoltageMeasurement"].as<bool>();
-        externalVoltagePin              = data["other"]["externalVoltagePin"].as<int>();
 
         aprs_is.passcode                = data["aprs_is"]["passcode"].as<String>();
         aprs_is.server                  = data["aprs_is"]["server"].as<String>();
@@ -183,6 +185,14 @@ bool Configuration::readFile() {
 
         rebootMode                      = data["other"]["rebootMode"].as<bool>();
         rebootModeTime                  = data["other"]["rebootModeTime"].as<int>();
+
+        battery.sendInternalVoltage     = data["battery"]["sendInternalVoltage"].as<bool>();
+        battery.sendExternalVoltage     = data["battery"]["sendExternalVoltage"].as<bool>();
+        battery.externalVoltagePin      = data["battery"]["externalVoltagePin"].as<int>();
+        battery.internalMonitor         = data["battery"]["internalMonitor"].as<bool>();
+        battery.internalSleepVoltage    = data["battery"]["internalSleepVoltage"].as<float>();
+        battery.externalMonitor         = data["battery"]["externalMonitor"].as<bool>();
+        battery.externalSleepVoltage    = data["battery"]["externalSleepVoltage"].as<float>();
 
         int stationMode                 = data["stationMode"].as<int>(); // deprecated but need to specify config version
 
@@ -356,18 +366,23 @@ void Configuration::init() {
     // beaconInterval = 15; // deprecated
     // igateSendsLoRaBeacons = false; // deprecated
     // igateRepeatsLoRaPackets = false; // deprecated
-    rememberStationTime         = 30;
-    sendBatteryVoltage          = false;
-    externalVoltageMeasurement  = false;
-    externalVoltagePin          = 34;
+    rememberStationTime             = 30;
 
-    lowPowerMode                = false;
-    lowVoltageCutOff            = 0;
+    lowPowerMode                    = false;
+    lowVoltageCutOff                = 0;
 
-    backupDigiMode              = false;
+    backupDigiMode                  = false;
 
-    rebootMode                  = false;
-    rebootModeTime              = 0;
+    rebootMode                      = false;
+    rebootModeTime                  = 0;
+
+    battery.sendInternalVoltage     = false;
+    battery.sendExternalVoltage     = false;
+    battery.externalVoltagePin      = 34;
+    battery.internalMonitor         = false;
+    battery.internalSleepVoltage    = 0.0;
+    battery.externalMonitor         = false;
+    battery.externalSleepVoltage    = 0.0;
 
     Serial.println("All is Written!");
 }
