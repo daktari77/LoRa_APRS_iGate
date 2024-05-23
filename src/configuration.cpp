@@ -304,15 +304,15 @@ void Configuration::init() {
     aprs_is.messagesToRF        = false;
     aprs_is.objectsToRF         = false;
 
-    lora.txFreq           = 433775000;
-    lora.rxFreq           = 433775000;
-    lora.spreadingFactor  = 12;
-    lora.signalBandwidth  = 125000;
-    lora.codingRate4      = 5;
-    lora.power            = 20;
-    lora.txActive         = false;
-    lora.rxActive         = true;
-
+    lora.txFreq                 = 433775000;
+    lora.rxFreq                 = 433775000;
+    lora.spreadingFactor        = 12;
+    lora.signalBandwidth        = 125000;
+    lora.codingRate4            = 5;
+    lora.power                  = 20;
+    lora.txActive               = false;
+    lora.rxActive               = true;
+    
     display.alwaysOn            = true;
     display.timeout             = 4;
     display.turn180             = false;

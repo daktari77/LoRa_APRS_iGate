@@ -122,6 +122,16 @@ void setup() {
         A7670_Utils::setup();
     #endif
     Utils::checkRebootMode();
+
+    //
+    /*Serial.println(Config.battery.sendInternalVoltage);
+    Serial.println(Config.battery.sendExternalVoltage);
+    Serial.println(Config.battery.externalVoltagePin);
+    Serial.println(Config.battery.internalMonitor);
+    Serial.println(Config.battery.internalSleepVoltage);
+    Serial.println(Config.battery.externalMonitor);
+    Serial.println(Config.battery.externalSleepVoltage);*/
+    //
 }
 
 void loop() {
