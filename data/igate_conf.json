@@ -7,6 +7,16 @@
         },
         "AP": []
     },
+    "aprs_is": {
+        "active": false,
+        "passcode": "XYZVW",
+        "server": "rotate.aprs2.net",
+        "port": 14580,
+        "filter": "m/10",
+        "toRF": false,
+        "messagesToRF": false,
+        "objectsToRF": false
+    },
     "beacon": {
         "latitude": 0.0,
         "longitude": 0.0,
@@ -20,21 +30,6 @@
     },
     "digi": {
         "mode": 0
-    },
-    "tnc": {
-        "enableServer": false,
-        "enableSerial": false,
-        "acceptOwn": false
-    },
-    "aprs_is": {
-        "active": false,
-        "passcode": "XYZVW",
-        "server": "rotate.aprs2.net",
-        "port": 14580,
-        "filter": "m/10",
-        "toRF": false,
-        "messagesToRF": false,
-        "objectsToRF": false
     },
     "lora": {
         "txFreq": 433775000,
@@ -51,20 +46,6 @@
         "timeout": 4,
         "turn180": false
     },
-    "syslog": {
-        "active": false,
-        "server": "192.168.0.100",
-        "port": 514
-    },
-    "bme": {
-		"active": false,
-		"heightCorrection": 0,
-		"temperatureCorrection": 0.0
-	},
-    "ota": {
-        "username": "",
-        "password": ""
-    },
     "battery": {
         "sendInternalVoltage": false,
         "sendExternalVoltage": false,
@@ -74,6 +55,25 @@
         "externalMonitor": false,
         "externalSleepVoltage": 0.0
     },
+    "bme": {
+		"active": false,
+		"heightCorrection": 0,
+		"temperatureCorrection": 0.0
+	},
+    "syslog": {
+        "active": false,
+        "server": "192.168.0.100",
+        "port": 514
+    },
+    "tnc": {
+        "enableServer": false,
+        "enableSerial": false,
+        "acceptOwn": false
+    },    
+    "ota": {
+        "username": "",
+        "password": ""
+    },    
     "other": {
         "rememberStationTime": 30,
         "lowPowerMode": false,

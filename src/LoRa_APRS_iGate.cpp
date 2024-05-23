@@ -37,7 +37,7 @@ ________________________________________________________________________________
     #include "A7670_utils.h"
 #endif
 
-String          versionDate             = "2024.05.22";
+String          versionDate             = "2024.05.23";
 Configuration   Config;
 WiFiClient      espClient;
 
@@ -109,7 +109,7 @@ void setup() {
                 esp_light_sleep_start();
                 Serial.println("Waked up");
             }
-            Config.loramodule.rxActive = false;
+            Config.lora.rxActive = false;
         }
     #endif
 
@@ -155,7 +155,7 @@ void loop() {
     APRS_IS_Utils::checkStatus(); // Need that to update display, maybe split this and send APRSIS status to display func?
 
     String packet = "";
-    if (Config.loramodule.rxActive) {
+    if (Config.lora.rxActive) {
         packet = LoRa_Utils::receivePacket(); // We need to fetch LoRa packet above APRSIS and Digi
     } 
 

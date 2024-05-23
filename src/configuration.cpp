@@ -72,17 +72,17 @@ void Configuration::writeFile() {
     data["beacon"]["sendViaRF"]             = beacon.sendViaRF;
     data["beacon"]["path"]                  = beacon.path;
 
-    // data["lora"]["iGateFreq"] = loramodule.iGateFreq;
-    // data["lora"]["digirepeaterTxFreq"] = loramodule.digirepeaterTxFreq;
-    // data["lora"]["digirepeaterRxFreq"] = loramodule.digirepeaterRxFreq;
-    data["lora"]["rxFreq"]                  = loramodule.rxFreq;
-    data["lora"]["txFreq"]                  = loramodule.txFreq;
-    data["lora"]["spreadingFactor"]         = loramodule.spreadingFactor;
-    data["lora"]["signalBandwidth"]         = loramodule.signalBandwidth;
-    data["lora"]["codingRate4"]             = loramodule.codingRate4;
-    data["lora"]["power"]                   = loramodule.power;
-    data["lora"]["txActive"]                = loramodule.txActive;
-    data["lora"]["rxActive"]                = loramodule.rxActive;
+    // data["lora"]["iGateFreq"] = lora.iGateFreq;
+    // data["lora"]["digirepeaterTxFreq"] = lora.digirepeaterTxFreq;
+    // data["lora"]["digirepeaterRxFreq"] = lora.digirepeaterRxFreq;
+    data["lora"]["rxFreq"]                  = lora.rxFreq;
+    data["lora"]["txFreq"]                  = lora.txFreq;
+    data["lora"]["spreadingFactor"]         = lora.spreadingFactor;
+    data["lora"]["signalBandwidth"]         = lora.signalBandwidth;
+    data["lora"]["codingRate4"]             = lora.codingRate4;
+    data["lora"]["power"]                   = lora.power;
+    data["lora"]["txActive"]                = lora.txActive;
+    data["lora"]["rxActive"]                = lora.rxActive;
 
     data["display"]["alwaysOn"]             = display.alwaysOn;
     data["display"]["timeout"]              = display.timeout;
@@ -154,10 +154,10 @@ bool Configuration::readFile() {
         aprs_is.server                  = data["aprs_is"]["server"].as<String>();
         aprs_is.port                    = data["aprs_is"]["port"].as<int>();
 
-        loramodule.spreadingFactor      = data["lora"]["spreadingFactor"].as<int>();
-        loramodule.signalBandwidth      = data["lora"]["signalBandwidth"].as<long>();
-        loramodule.codingRate4          = data["lora"]["codingRate4"].as<int>();
-        loramodule.power                = data["lora"]["power"].as<int>();
+        lora.spreadingFactor            = data["lora"]["spreadingFactor"].as<int>();
+        lora.signalBandwidth            = data["lora"]["signalBandwidth"].as<long>();
+        lora.codingRate4                = data["lora"]["codingRate4"].as<int>();
+        lora.power                      = data["lora"]["power"].as<int>();
 
         display.alwaysOn                = data["display"]["alwaysOn"].as<bool>();
         display.timeout                 = data["display"]["timeout"].as<int>();
@@ -219,10 +219,10 @@ bool Configuration::readFile() {
             aprs_is.messagesToRF              = data["aprs_is"]["messagesToRF"].as<bool>();
             aprs_is.objectsToRF               = data["aprs_is"]["objectsToRF"].as<bool>();
 
-            loramodule.txFreq                 = data["lora"]["txFreq"].as<long>();
-            loramodule.rxFreq                 = data["lora"]["rxFreq"].as<long>();
-            loramodule.txActive               = data["lora"]["txActive"].as<bool>();
-            loramodule.rxActive               = data["lora"]["rxActive"].as<bool>();
+            lora.txFreq                       = data["lora"]["txFreq"].as<long>();
+            lora.rxFreq                       = data["lora"]["rxFreq"].as<long>();
+            lora.txActive                     = data["lora"]["txActive"].as<bool>();
+            lora.rxActive                     = data["lora"]["rxActive"].as<bool>();
         } else {
             // Load old settings and put into new variables not actual config
 
@@ -244,9 +244,9 @@ bool Configuration::readFile() {
             beacon.interval = beaconInterval;
             // beacon.igateSendsLoRaBeacons = igateSendsLoRaBeacons;
             // beacon.igateRepeatsLoRaPackets = igateRepeatsLoRaPackets;
-            loramodule.txFreq = digirepeaterTxFreq;
-            loramodule.rxFreq = digirepeaterRxFreq;
-            loramodule.rxActive = true;
+            lora.txFreq = digirepeaterTxFreq;
+            lora.rxFreq = digirepeaterRxFreq;
+            lora.rxActive = true;
             beacon.sendViaAPRSIS = true;
             beacon.sendViaRF = false;
 
@@ -254,14 +254,14 @@ bool Configuration::readFile() {
                 case 1: // IGate only
                 // aprs_is.active = true; // better don't do that automatically
                 beacon.comment = iGateComment;
-                loramodule.rxFreq = iGateFreq;
+                lora.rxFreq = iGateFreq;
                 break;
                 case 5: // Digi + IGate
                 case 2: // Digi + IGate
                 // aprs_is.active = true; // better don't do that automatically
                 // digi.mode = 2; // better don't do that automatically
                 beacon.comment = digiComment;
-                loramodule.rxFreq = iGateFreq;
+                lora.rxFreq = iGateFreq;
                 break;
                 case 3: // Digi
                 case 4: // Digi
@@ -336,17 +336,17 @@ void Configuration::init() {
     aprs_is.messagesToRF        = false;
     aprs_is.objectsToRF         = false;
 
-    // loramodule.iGateFreq = 433775000; // deprecated
-    // loramodule.digirepeaterTxFreq = 433775000; // deprecated
-    // loramodule.digirepeaterRxFreq = 433900000; // deprecated
-    loramodule.txFreq           = 433775000; // new
-    loramodule.rxFreq           = 433775000; // new
-    loramodule.spreadingFactor  = 12;
-    loramodule.signalBandwidth  = 125000;
-    loramodule.codingRate4      = 5;
-    loramodule.power            = 20;
-    loramodule.txActive         = false; // new
-    loramodule.rxActive         = true; // new
+    // lora.iGateFreq = 433775000; // deprecated
+    // lora.digirepeaterTxFreq = 433775000; // deprecated
+    // lora.digirepeaterRxFreq = 433900000; // deprecated
+    lora.txFreq           = 433775000; // new
+    lora.rxFreq           = 433775000; // new
+    lora.spreadingFactor  = 12;
+    lora.signalBandwidth  = 125000;
+    lora.codingRate4      = 5;
+    lora.power            = 20;
+    lora.txActive         = false; // new
+    lora.rxActive         = true; // new
 
     display.alwaysOn            = true;
     display.timeout             = 4;

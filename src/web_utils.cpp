@@ -119,22 +119,22 @@ namespace WEB_Utils {
         Config.aprs_is.messagesToRF     = request->hasParam("aprs_is.messagesToRF", true);
         Config.aprs_is.objectsToRF      = request->hasParam("aprs_is.objectsToRF", true);
         
-        // Config.loramodule.iGateFreq = request->getParam("lora.iGateFreq", true)->value().toInt();
+        // Config.lora.iGateFreq = request->getParam("lora.iGateFreq", true)->value().toInt();
         // if (request->hasParam("lora.digirepeaterTxFreq", true)) {
-        //     Config.loramodule.digirepeaterTxFreq = request->getParam("lora.digirepeaterTxFreq", true)->value().toInt();
+        //     Config.lora.digirepeaterTxFreq = request->getParam("lora.digirepeaterTxFreq", true)->value().toInt();
         // }
         // if (request->hasParam("lora.digirepeaterRxFreq", true)) {
-        //     Config.loramodule.digirepeaterRxFreq = request->getParam("lora.digirepeaterRxFreq", true)->value().toInt();
+        //     Config.lora.digirepeaterRxFreq = request->getParam("lora.digirepeaterRxFreq", true)->value().toInt();
         // }
 
-        Config.loramodule.txFreq            = request->getParam("lora.txFreq", true)->value().toInt();
-        Config.loramodule.rxFreq            = request->getParam("lora.rxFreq", true)->value().toInt();
-        Config.loramodule.spreadingFactor   = request->getParam("lora.spreadingFactor", true)->value().toInt();
-        Config.loramodule.signalBandwidth   = request->getParam("lora.signalBandwidth", true)->value().toInt();
-        Config.loramodule.codingRate4       = request->getParam("lora.codingRate4", true)->value().toInt();
-        Config.loramodule.power             = request->getParam("lora.power", true)->value().toInt();
-        Config.loramodule.txActive          = request->hasParam("lora.txActive", true);
-        Config.loramodule.rxActive          = request->hasParam("lora.rxActive", true);
+        Config.lora.txFreq            = request->getParam("lora.txFreq", true)->value().toInt();
+        Config.lora.rxFreq            = request->getParam("lora.rxFreq", true)->value().toInt();
+        Config.lora.spreadingFactor   = request->getParam("lora.spreadingFactor", true)->value().toInt();
+        Config.lora.signalBandwidth   = request->getParam("lora.signalBandwidth", true)->value().toInt();
+        Config.lora.codingRate4       = request->getParam("lora.codingRate4", true)->value().toInt();
+        Config.lora.power             = request->getParam("lora.power", true)->value().toInt();
+        Config.lora.txActive          = request->hasParam("lora.txActive", true);
+        Config.lora.rxActive          = request->hasParam("lora.rxActive", true);
 
         Config.display.alwaysOn             = request->hasParam("display.alwaysOn", true);
 

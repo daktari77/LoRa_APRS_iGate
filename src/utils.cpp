@@ -186,10 +186,10 @@ namespace Utils {
     }
 
     void validateFreqs() {
-        if (Config.loramodule.txFreq != Config.loramodule.rxFreq && abs(Config.loramodule.txFreq - Config.loramodule.rxFreq) < 125000) {
+        if (Config.lora.txFreq != Config.lora.rxFreq && abs(Config.lora.txFreq - Config.lora.rxFreq) < 125000) {
             Serial.println("Tx Freq less than 125kHz from Rx Freq ---> NOT VALID");
             show_display("Tx Freq is less than ", "125kHz from Rx Freq", "device will autofix", "and then reboot", 1000);
-            Config.loramodule.txFreq = Config.loramodule.rxFreq; // Inform about that but then change the TX QRG to RX QRG and reset the device
+            Config.lora.txFreq = Config.lora.rxFreq; // Inform about that but then change the TX QRG to RX QRG and reset the device
             Config.writeFile();
             ESP.restart();
         }
