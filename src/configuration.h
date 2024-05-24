@@ -69,8 +69,12 @@ public:
 class BATTERY {
 public:
     bool    sendInternalVoltage;
+    bool    monitorInternalVoltage;
+    float   internalSleepVoltage;
     bool    sendExternalVoltage;
     int     externalVoltagePin;
+    bool    monitorExternalVoltage;
+    float   externalSleepVoltage;
 };
 
 class BME {

@@ -37,8 +37,13 @@ void Configuration::writeFile() {
     data["other"]["rememberStationTime"]        = rememberStationTime;
 
     data["battery"]["sendInternalVoltage"]      = battery.sendInternalVoltage;
+    data["battery"]["monitorInternalVoltage"]   = battery.monitorInternalVoltage;
+    data["battery"]["internalSleepVoltage"]     = battery.internalSleepVoltage;
+
     data["battery"]["sendExternalVoltage"]      = battery.sendExternalVoltage;
     data["battery"]["externalVoltagePin"]       = battery.externalVoltagePin;
+    data["battery"]["monitorExternalVoltage"]   = battery.monitorExternalVoltage;
+    data["battery"]["externalSleepVoltage"]     = battery.externalSleepVoltage;
 
     data["digi"]["mode"]                    = digi.mode;
 
@@ -138,8 +143,13 @@ bool Configuration::readFile() {
         rememberStationTime             = data["other"]["rememberStationTime"].as<int>();
 
         battery.sendInternalVoltage         = data["battery"]["sendInternalVoltage"].as<bool>();
+        battery.monitorInternalVoltage      = data["battery"]["monitorInternalVoltage"].as<bool>();
+        battery.internalSleepVoltage        = data["battery"]["internalSleepVoltage"].as<float>();
+
         battery.sendExternalVoltage         = data["battery"]["sendExternalVoltage"].as<bool>();
         battery.externalVoltagePin          = data["battery"]["externalVoltagePin"].as<int>();
+        battery.monitorExternalVoltage      = data["battery"]["monitorExternalVoltage"].as<bool>();
+        battery.externalSleepVoltage        = data["battery"]["externalSleepVoltage"].as<float>();
 
         aprs_is.passcode                = data["aprs_is"]["passcode"].as<String>();
         aprs_is.server                  = data["aprs_is"]["server"].as<String>();
@@ -349,9 +359,14 @@ void Configuration::init() {
     
     rememberStationTime         = 30;
     
-    battery.sendInternalVoltage         = false;
-    battery.sendExternalVoltage         = false;
-    battery.externalVoltagePin          = 34;
+    battery.sendInternalVoltage     = false;
+    battery.monitorInternalVoltage  = false;
+    battery.internalSleepVoltage    = 0.0;
+
+    battery.sendExternalVoltage     = false;
+    battery.externalVoltagePin      = 34;
+    battery.monitorExternalVoltage  = false;
+    battery.externalSleepVoltage    = 0.0;
 
     lowPowerMode                = false;
     lowVoltageCutOff            = 0;

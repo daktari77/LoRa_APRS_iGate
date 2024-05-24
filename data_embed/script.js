@@ -161,19 +161,27 @@ function loadSettings(settings) {
     document.getElementById("ota.username").value           = settings.ota.username;
     document.getElementById("ota.password").value           = settings.ota.password;
 
+    
     // Beacon
     document.getElementById("beacon.interval").value        = settings.beacon.interval;
     document.getElementById("other.rememberStationTime").value  = settings.other.rememberStationTime;
-    document.getElementById("battery.sendInternalVoltage").checked = settings.battery.sendInternalVoltage;
-    document.getElementById("battery.sendExternalVoltage").checked = settings.battery.sendExternalVoltage;
-    document.getElementById("battery.externalVoltagePin").value   = settings.battery.externalVoltagePin;
-    // document.getElementById("beacon.igateSendsLoRaBeacon").value = settings.beacon.igateSendsLoRaBeacon;
-    // document.getElementById("beacon.igateRepeatLoRaPackets").value = settings.beacon.igateRepeatLoRaPackets;
     document.getElementById("beacon.path").value            = settings.beacon.path;
     document.getElementById("beacon.latitude").value        = settings.beacon.latitude;
     document.getElementById("beacon.longitude").value       = settings.beacon.longitude;
     document.getElementById("beacon.sendViaAPRSIS").checked = settings.beacon.sendViaAPRSIS;
     document.getElementById("beacon.sendViaRF").checked     = settings.beacon.sendViaRF;
+
+
+    // BATTERY
+    document.getElementById("battery.sendInternalVoltage").checked      = settings.battery.sendInternalVoltage;
+    document.getElementById("battery.monitorInternalVoltage").checked   = settings.battery.monitorInternalVoltage;
+    document.getElementById("battery.internalSleepVoltage").value       = settings.battery.internalSleepVoltage.toFixed(1);;
+
+    document.getElementById("battery.sendExternalVoltage").checked      = settings.battery.sendExternalVoltage;
+    document.getElementById("battery.externalVoltagePin").value         = settings.battery.externalVoltagePin;
+    document.getElementById("battery.monitorExternalVoltage").checked   = settings.battery.monitorExternalVoltage;
+    document.getElementById("battery.externalSleepVoltage").value       = settings.battery.externalSleepVoltage.toFixed(1);;   
+
 
     // Syslog
     document.getElementById("syslog.active").checked        = settings.syslog.active;
