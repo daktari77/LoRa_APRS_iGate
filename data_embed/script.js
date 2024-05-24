@@ -71,6 +71,23 @@ logCheckbox.addEventListener("change", function () {
     portField.disabled = !this.checked;
 });
 
+const rebootModeCheckBox    = document.querySelector('input[name="other.rebootMode"]');
+const rebootTimeField       = document.querySelector('input[name="other.rebootModeTime"]');
+
+rebootModeCheckBox.addEventListener("change", function () {
+    rebootTimeField.disabled = !this.checked;
+});
+
+const bmeActiveCheckBox             = document.querySelector('input[name="bme.active"]');
+const bmeHeightCorrectionField      = document.querySelector('input[name="bme.heightCorrection"]');
+const bmeTemperatureCorrectionField = document.querySelector('input[name="bme.temperatureCorrection"]');
+
+bmeActiveCheckBox.addEventListener("change", function () {
+    bmeHeightCorrectionField.disabled = !this.checked;
+    bmeTemperatureCorrectionField.disabled = !this.checked;
+});
+
+
 function loadSettings(settings) {
     currentSettings = settings;
     // General
@@ -79,6 +96,11 @@ function loadSettings(settings) {
     document.getElementById("bme.active").checked           = settings.bme.active;
     document.getElementById("bme.heightCorrection").value   = settings.bme.heightCorrection;
     document.getElementById("bme.temperatureCorrection").value  = settings.bme.temperatureCorrection.toFixed(1);
+    
+    if (settings.bme.active) {
+        bmeHeightCorrectionField.disabled = false;
+        bmeTemperatureCorrectionField.disabled = false;
+    }
     
     document.getElementById("beacon.comment").value         = settings.beacon.comment;
     document.getElementById("beacon.symbol").value          = settings.beacon.symbol;
@@ -187,7 +209,6 @@ function loadSettings(settings) {
     document.getElementById("syslog.active").checked        = settings.syslog.active;
     document.getElementById("syslog.server").value          = settings.syslog.server;
     document.getElementById("syslog.port").value            = settings.syslog.port;
-
     if (settings.syslog.active) {
         serverField.disabled = false;
         portField.disabled = false;
@@ -209,6 +230,9 @@ function loadSettings(settings) {
     // Reboot
     document.getElementById("other.rebootMode").checked     = settings.other.rebootMode;
     document.getElementById("other.rebootModeTime").value   = settings.other.rebootModeTime;
+    if (settings.other.rebootMode) {
+        rebootTimeField.disabled = false;
+    }
 
     // Experimental
     document.getElementById("other.backupDigiMode").checked = settings.other.backupDigiMode;
