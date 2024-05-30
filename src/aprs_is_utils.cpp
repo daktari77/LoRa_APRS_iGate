@@ -261,8 +261,13 @@ namespace APRS_IS_Utils {
                             A7670_Utils::uploadToAPRSIS(queryAnswer);
                         #else
                             upload(queryAnswer);
-                        #endif                        
-                        SYSLOG_Utils::log(2, queryAnswer, 0, 0, 0); // APRSIS TX
+                        #endif
+                        ReceivedLoRaPacket queryTx;
+                        queryTx.packet      = queryAnswer;
+                        queryTx.rssi        = 0;
+                        queryTx.snr         = 0;
+                        queryTx.freqError   = 0;
+                        SYSLOG_Utils::log(2, queryTx); // APRSIS TX
                         fifthLine = "APRS-IS ----> APRS-IS";
                         sixthLine = Config.callsign;
                         for (int j = sixthLine.length();j < 9;j++) {

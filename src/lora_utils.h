@@ -3,13 +3,20 @@
 
 #include <Arduino.h>
 
+struct ReceivedLoRaPacket {
+    String  packet;
+    int     rssi;
+    float   snr;
+    int     freqError;
+};
+
 
 namespace LoRa_Utils {
 
     void setup();
     void sendNewPacket(const String& newPacket);
     String packetSanitization(const String& packet);
-    String receivePacket();
+    ReceivedLoRaPacket receivePacket();
     void changeFreqTx();
     void changeFreqRx();
     void startReceive(); // ???

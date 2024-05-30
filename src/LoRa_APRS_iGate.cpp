@@ -152,25 +152,30 @@ void loop() {
     
     APRS_IS_Utils::checkStatus(); // Need that to update display, maybe split this and send APRSIS status to display func?
 
-    String packet = "";
+    ReceivedLoRaPacket receivedLoRaPacket;
+    receivedLoRaPacket.packet = "";
     if (Config.loramodule.rxActive) {
-        packet = LoRa_Utils::receivePacket(); // We need to fetch LoRa packet above APRSIS and Digi
+        receivedLoRaPacket = LoRa_Utils::receivePacket(); // We need to fetch LoRa packet above APRSIS and Digi
     } 
 
-    if (packet != "") {
+    if (receivedLoRaPacket.packet != "") {
         if (Config.aprs_is.active) { // If APRSIS enabled
-            APRS_IS_Utils::processLoRaPacket(packet); // Send received packet to APRSIS
+            APRS_IS_Utils::processLoRaPacket(receivedLoRaPacket.packet); // Send received packet to APRSIS
+        }
+
+        if (Config.syslog.active && WiFi.status() == WL_CONNECTED) {
+            SYSLOG_Utils::log(1, receivedLoRaPacket); // RX
         }
 
         if (Config.digi.mode == 2 || backUpDigiMode) { // If Digi enabled
-            DIGI_Utils::processLoRaPacket(packet); // Send received packet to Digi
+            DIGI_Utils::processLoRaPacket(receivedLoRaPacket.packet); // Send received packet to Digi
         }
 
         if (Config.tnc.enableServer) { // If TNC server enabled
-            TNC_Utils::sendToClients(packet); // Send received packet to TNC KISS
+            TNC_Utils::sendToClients(receivedLoRaPacket.packet); // Send received packet to TNC KISS
         }
         if (Config.tnc.enableSerial) { // If Serial KISS enabled
-            TNC_Utils::sendToSerial(packet); // Send received packet to Serial KISS
+            TNC_Utils::sendToSerial(receivedLoRaPacket.packet); // Send received packet to Serial KISS
         }
     }
 
