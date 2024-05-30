@@ -182,25 +182,25 @@ namespace APRS_IS_Utils {
         }
     }
 
-    void processLoRaPacket(const String& packet) {
+    void processLoRaPacket(ReceivedLoRaPacket rxPacket) {
         if (espClient.connected() || modemLoggedToAPRSIS) {
             bool queryMessage = false;
             String aprsPacket, Sender, AddresseeAndMessage, Addressee;
-            if (packet != "") {
-                if ((packet.substring(0, 3) == "\x3c\xff\x01") && (packet.indexOf("TCPIP") == -1) && (packet.indexOf("NOGATE") == -1) && (packet.indexOf("RFONLY") == -1)) {
-                    Sender = packet.substring(3, packet.indexOf(">"));
+            if (rxPacket.packet != "") {
+                if ((rxPacket.packet.substring(0,3) == "\x3c\xff\x01") && (rxPacket.packet.indexOf("TCPIP") == -1) && (rxPacket.packet.indexOf("NOGATE") == -1) && (rxPacket.packet.indexOf("RFONLY") == -1)) {
+                    Sender = rxPacket.packet.substring(3, rxPacket.packet.indexOf(">"));
                     if (Sender != Config.callsign) {   // avoid listening yourself by digirepeating
-                        if (STATION_Utils::check25SegBuffer(Sender, packet.substring(packet.indexOf(":")+2))) {
+                        if (STATION_Utils::check25SegBuffer(Sender, rxPacket.packet.substring(rxPacket.packet.indexOf(":")+2))) {
                             STATION_Utils::updateLastHeard(Sender);
-                            Utils::typeOfPacket(packet.substring(3), 0);  // LoRa-APRS
-                            AddresseeAndMessage = packet.substring(packet.indexOf("::") + 2);
+                            Utils::typeOfPacket(rxPacket.packet.substring(3), 0);  // LoRa-APRS
+                            AddresseeAndMessage = rxPacket.packet.substring(rxPacket.packet.indexOf("::") + 2);
                             Addressee = AddresseeAndMessage.substring(0, AddresseeAndMessage.indexOf(":"));
                             Addressee.trim();
-                            if (packet.indexOf("::") > 10 && Addressee == Config.callsign) {      // its a message for me!
+                            if (rxPacket.packet.indexOf("::") > 10 && Addressee == Config.callsign) {      // its a message for me!
                                 queryMessage = processReceivedLoRaMessage(Sender, AddresseeAndMessage);
                             }
                             if (!queryMessage) {
-                                aprsPacket = buildPacketToUpload(packet);
+                                aprsPacket = buildPacketToUpload(rxPacket.packet);
                                 if (!Config.display.alwaysOn && Config.display.timeout != 0) {
                                     display_toggle(true);
                                 }

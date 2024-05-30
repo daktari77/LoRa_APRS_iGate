@@ -159,7 +159,7 @@ void loop() {
 
     if (receivedLoRaPacket.packet != "") {
         if (Config.aprs_is.active) { // If APRSIS enabled
-            APRS_IS_Utils::processLoRaPacket(receivedLoRaPacket.packet); // Send received packet to APRSIS
+            APRS_IS_Utils::processLoRaPacket(receivedLoRaPacket); // Send received packet to APRSIS
         }
 
         if (Config.digi.mode == 2 || backUpDigiMode) { // If Digi enabled
