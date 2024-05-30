@@ -51,11 +51,7 @@ namespace Utils {
             delay(1000);
             status += ",qAC:>https://github.com/richonguzman/LoRa_APRS_iGate " + versionDate;
             APRS_IS_Utils::upload(status);
-            ReceivedLoRaPacket txPacket;
-            txPacket.packet     = status;
-            txPacket.rssi       = 0;
-            txPacket.snr        = 0;
-            txPacket.freqError  = 0;
+            ReceivedLoRaPacket txPacket = {status, 0, 0.0, 0};
             SYSLOG_Utils::log(2, txPacket);   // APRSIS TX
             statusAfterBoot = false;
         }

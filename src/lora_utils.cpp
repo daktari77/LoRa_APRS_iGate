@@ -119,11 +119,7 @@ namespace LoRa_Utils {
         transmitFlag = true;
         if (state == RADIOLIB_ERR_NONE) {
             if (Config.syslog.active && WiFi.status() == WL_CONNECTED) {
-                ReceivedLoRaPacket txPacket;
-                txPacket.packet     = newPacket;
-                txPacket.rssi       = 0;
-                txPacket.snr        = 0;
-                txPacket.freqError  = 0;
+                ReceivedLoRaPacket txPacket = {newPacket, 0, 0.0, 0};
                 SYSLOG_Utils::log(3, txPacket);    // TX
             }
             Utils::print("---> LoRa Packet Tx    : ");

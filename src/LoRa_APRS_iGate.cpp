@@ -152,8 +152,7 @@ void loop() {
     
     APRS_IS_Utils::checkStatus(); // Need that to update display, maybe split this and send APRSIS status to display func?
 
-    ReceivedLoRaPacket receivedLoRaPacket;
-    receivedLoRaPacket.packet = "";
+    ReceivedLoRaPacket receivedLoRaPacket = {"", 0, 0.0, 0};
     if (Config.loramodule.rxActive) {
         receivedLoRaPacket = LoRa_Utils::receivePacket(); // We need to fetch LoRa packet above APRSIS and Digi
     } 
