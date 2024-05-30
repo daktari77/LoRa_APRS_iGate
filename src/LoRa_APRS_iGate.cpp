@@ -162,12 +162,12 @@ void loop() {
             APRS_IS_Utils::processLoRaPacket(receivedLoRaPacket.packet); // Send received packet to APRSIS
         }
 
-        if (Config.syslog.active && WiFi.status() == WL_CONNECTED) {
-            SYSLOG_Utils::log(1, receivedLoRaPacket); // RX
-        }
-
         if (Config.digi.mode == 2 || backUpDigiMode) { // If Digi enabled
             DIGI_Utils::processLoRaPacket(receivedLoRaPacket.packet); // Send received packet to Digi
+        }
+
+        if (Config.syslog.active && WiFi.status() == WL_CONNECTED) {
+            SYSLOG_Utils::log(1, receivedLoRaPacket); // RX
         }
 
         if (Config.tnc.enableServer) { // If TNC server enabled
