@@ -940,7 +940,10 @@
                                     </svg>
                                     Battery
                                 </h5>
-                                <small>Battery Monitor & Health</small>
+                                <small>Battery Monitor & Health <br>
+                                    Max Voltage on input pin is 3.3V.
+                                    Calculate voltage divider accordingly.
+                                </small>
                             </div>
                             <div class="col-9 mt-2">
                                 <div class="row mt-2">
@@ -956,19 +959,6 @@
                                                 for="battery.sendInternalVoltage"
                                                 class="form-label"
                                                 >Send Internal Voltage</label
-                                            >
-                                        </div>
-                                        <div class="form-check form-switch">
-                                            <input
-                                                type="checkbox"
-                                                name="battery.sendExternalVoltage"
-                                                id="battery.sendExternalVoltage"
-                                                class="form-check-input"
-                                            />
-                                            <label
-                                                for="battery.sendExternalVoltage"
-                                                class="form-label"
-                                                >Send External Voltage</label
                                             >
                                         </div>
                                         <div class="form-check form-switch mt-3">
@@ -1006,21 +996,20 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <div class="form-floating col-7">
+                                        <div class="form-check form-switch">
                                             <input
-                                                type="text"
-                                                name="battery.externalVoltagePin"
-                                                id="battery.externalVoltagePin"
-                                                value="34"
-                                                class="form-control"
+                                                type="checkbox"
+                                                name="battery.sendExternalVoltage"
+                                                id="battery.sendExternalVoltage"
+                                                class="form-check-input"
                                             />
                                             <label
-                                                for="battery.externalVoltagePin"
+                                                for="battery.sendExternalVoltage"
                                                 class="form-label"
-                                                >External Voltage Pin</label
+                                                >Send External Voltage</label
                                             >
                                         </div>
-                                        <div class="form-check form-switch mt-4">
+                                        <div class="form-check form-switch mt-3">
                                             <input
                                                 type="checkbox"
                                                 name="battery.monitorExternalVoltage"
@@ -1053,6 +1042,22 @@
                                                 >
                                             </div>
                                         </div>
+                                        <div class="form-floating col-7">
+                                            <input
+                                                type="text"
+                                                name="battery.externalVoltagePin"
+                                                id="battery.externalVoltagePin"
+                                                value="34"
+                                                class="form-control"
+                                            />
+                                            <label
+                                                for="battery.externalVoltagePin"
+                                                class="form-label"
+                                                >External Voltage Pin</label
+                                            >
+                                        </div>
+                                        <!-- aqui R1 -->
+                                        <!-- aqui R2 -->
                                     </div>
                                 </div>
                             </div>
@@ -1354,7 +1359,7 @@
                                                 type="number"
                                                 name="other.rebootModeTime"
                                                 id="other.rebootModeTime"
-                                                placeholder="0"
+                                                placeholder="6"
                                                 class="form-control"
                                                 step="6"
                                                 min="6"

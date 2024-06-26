@@ -27,43 +27,43 @@ void Configuration::writeFile() {
         }
     }
 
-    data["wifi"]["autoAP"]["password"]      = wifiAutoAP.password;
-    data["wifi"]["autoAP"]["powerOff"]      = wifiAutoAP.powerOff;
+    data["wifi"]["autoAP"]["password"]          = wifiAutoAP.password;
+    data["wifi"]["autoAP"]["powerOff"]          = wifiAutoAP.powerOff;
 
-    data["callsign"]                        = callsign;
+    data["callsign"]                            = callsign;
 
-    data["aprs_is"]["active"]               = aprs_is.active;
-    data["aprs_is"]["passcode"]             = aprs_is.passcode;
-    data["aprs_is"]["server"]               = aprs_is.server;
-    data["aprs_is"]["port"]                 = aprs_is.port;
-    data["aprs_is"]["filter"]               = aprs_is.filter;
-    data["aprs_is"]["messagesToRF"]         = aprs_is.messagesToRF;
-    data["aprs_is"]["objectsToRF"]          = aprs_is.objectsToRF;
+    data["aprs_is"]["active"]                   = aprs_is.active;
+    data["aprs_is"]["passcode"]                 = aprs_is.passcode;
+    data["aprs_is"]["server"]                   = aprs_is.server;
+    data["aprs_is"]["port"]                     = aprs_is.port;
+    data["aprs_is"]["filter"]                   = aprs_is.filter;
+    data["aprs_is"]["messagesToRF"]             = aprs_is.messagesToRF;
+    data["aprs_is"]["objectsToRF"]              = aprs_is.objectsToRF;
 
-    data["beacon"]["comment"]               = beacon.comment;
-    data["beacon"]["interval"]              = beacon.interval;
-    data["beacon"]["latitude"]              = beacon.latitude;
-    data["beacon"]["longitude"]             = beacon.longitude;
-    data["beacon"]["overlay"]               = beacon.overlay;
-    data["beacon"]["symbol"]                = beacon.symbol;
-    data["beacon"]["sendViaAPRSIS"]         = beacon.sendViaAPRSIS;
-    data["beacon"]["sendViaRF"]             = beacon.sendViaRF;
-    data["beacon"]["path"]                  = beacon.path;
+    data["beacon"]["comment"]                   = beacon.comment;
+    data["beacon"]["interval"]                  = beacon.interval;
+    data["beacon"]["latitude"]                  = beacon.latitude;
+    data["beacon"]["longitude"]                 = beacon.longitude;
+    data["beacon"]["overlay"]                   = beacon.overlay;
+    data["beacon"]["symbol"]                    = beacon.symbol;
+    data["beacon"]["sendViaAPRSIS"]             = beacon.sendViaAPRSIS;
+    data["beacon"]["sendViaRF"]                 = beacon.sendViaRF;
+    data["beacon"]["path"]                      = beacon.path;
 
-    data["digi"]["mode"]                    = digi.mode;
+    data["digi"]["mode"]                        = digi.mode;
 
-    data["lora"]["rxFreq"]                  = loramodule.rxFreq;
-    data["lora"]["txFreq"]                  = loramodule.txFreq;
-    data["lora"]["spreadingFactor"]         = loramodule.spreadingFactor;
-    data["lora"]["signalBandwidth"]         = loramodule.signalBandwidth;
-    data["lora"]["codingRate4"]             = loramodule.codingRate4;
-    data["lora"]["power"]                   = loramodule.power;
-    data["lora"]["txActive"]                = loramodule.txActive;
-    data["lora"]["rxActive"]                = loramodule.rxActive;
+    data["lora"]["rxFreq"]                      = loramodule.rxFreq;
+    data["lora"]["txFreq"]                      = loramodule.txFreq;
+    data["lora"]["spreadingFactor"]             = loramodule.spreadingFactor;
+    data["lora"]["signalBandwidth"]             = loramodule.signalBandwidth;
+    data["lora"]["codingRate4"]                 = loramodule.codingRate4;
+    data["lora"]["power"]                       = loramodule.power;
+    data["lora"]["txActive"]                    = loramodule.txActive;
+    data["lora"]["rxActive"]                    = loramodule.rxActive;
 
-    data["display"]["alwaysOn"]             = display.alwaysOn;
-    data["display"]["timeout"]              = display.timeout;
-    data["display"]["turn180"]              = display.turn180;
+    data["display"]["alwaysOn"]                 = display.alwaysOn;
+    data["display"]["timeout"]                  = display.timeout;
+    data["display"]["turn180"]                  = display.turn180;
 
     data["battery"]["sendInternalVoltage"]      = battery.sendInternalVoltage;
     data["battery"]["monitorInternalVoltage"]   = battery.monitorInternalVoltage;
@@ -73,33 +73,35 @@ void Configuration::writeFile() {
     data["battery"]["externalVoltagePin"]       = battery.externalVoltagePin;
     data["battery"]["monitorExternalVoltage"]   = battery.monitorExternalVoltage;
     data["battery"]["externalSleepVoltage"]     = battery.externalSleepVoltage;
+    data["battery"]["voltageDividerR1"]         = battery.voltageDividerR1;
+    data["battery"]["voltageDividerR2"]         = battery.voltageDividerR2;
 
-    data["bme"]["active"]                   = bme.active;
-    data["bme"]["heightCorrection"]         = bme.heightCorrection;
-    data["bme"]["temperatureCorrection"]    = bme.temperatureCorrection;
+    data["bme"]["active"]                       = bme.active;
+    data["bme"]["heightCorrection"]             = bme.heightCorrection;
+    data["bme"]["temperatureCorrection"]        = bme.temperatureCorrection;
 
-    data["syslog"]["active"]                = syslog.active;
-    data["syslog"]["server"]                = syslog.server;
-    data["syslog"]["port"]                  = syslog.port;
+    data["syslog"]["active"]                    = syslog.active;
+    data["syslog"]["server"]                    = syslog.server;
+    data["syslog"]["port"]                      = syslog.port;
 
-    data["tnc"]["enableServer"]             = tnc.enableServer;
-    data["tnc"]["enableSerial"]             = tnc.enableSerial;
-    data["tnc"]["acceptOwn"]                = tnc.acceptOwn;
+    data["tnc"]["enableServer"]                 = tnc.enableServer;
+    data["tnc"]["enableSerial"]                 = tnc.enableSerial;
+    data["tnc"]["acceptOwn"]                    = tnc.acceptOwn;
 
-    data["other"]["rebootMode"]             = rebootMode;
-    data["other"]["rebootModeTime"]         = rebootModeTime;
+    data["other"]["rebootMode"]                 = rebootMode;
+    data["other"]["rebootModeTime"]             = rebootModeTime;
 
-    data["ota"]["username"]                 = ota.username;
-    data["ota"]["password"]                 = ota.password;
+    data["ota"]["username"]                     = ota.username;
+    data["ota"]["password"]                     = ota.password;
 
     data["other"]["rememberStationTime"]        = rememberStationTime;
 
-    data["other"]["backupDigiMode"]         = backupDigiMode;    
+    data["other"]["backupDigiMode"]             = backupDigiMode;    
 
-    data["other"]["lowPowerMode"]           = lowPowerMode;
-    data["other"]["lowVoltageCutOff"]       = lowVoltageCutOff;
+    data["other"]["lowPowerMode"]               = lowPowerMode;
+    data["other"]["lowVoltageCutOff"]           = lowVoltageCutOff;
 
-    data["personalNote"]                    = personalNote;
+    data["personalNote"]                        = personalNote;
 
     serializeJson(data, configFile);
 
@@ -144,6 +146,8 @@ bool Configuration::readFile() {
         battery.externalVoltagePin      = data["battery"]["externalVoltagePin"].as<int>();
         battery.monitorExternalVoltage  = data["battery"]["monitorExternalVoltage"].as<bool>();
         battery.externalSleepVoltage    = data["battery"]["externalSleepVoltage"].as<float>();
+        battery.voltageDividerR1        = data["battery"]["voltageDividerR1"].as<float>();
+        battery.voltageDividerR2        = data["battery"]["voltageDividerR2"].as<float>();
 
         aprs_is.passcode                = data["aprs_is"]["passcode"].as<String>();
         aprs_is.server                  = data["aprs_is"]["server"].as<String>();
@@ -345,6 +349,8 @@ void Configuration::init() {
     battery.externalVoltagePin      = 34;
     battery.monitorExternalVoltage  = false;
     battery.externalSleepVoltage    = 3.0;
+    battery.voltageDividerR1        = 100.0;
+    battery.voltageDividerR2        = 27.0;
 
     lowPowerMode                = false;
     lowVoltageCutOff            = 0;
