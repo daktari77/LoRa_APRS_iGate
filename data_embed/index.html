@@ -109,7 +109,8 @@
                                 <small
                                     >Add your ham callsign and SSID. Optionally,
                                     you can leave a comment describing your
-                                    station.</small
+                                    station. In the bottom there is a field for
+                                    personal note that can only be seen in WEB GUI.</small
                                 >
                             </div>
                             <div class="col-lg-9 col-sm-12">
@@ -235,6 +236,20 @@
                                             id="beacon.longitude"
                                             placeholder="-70.613"
                                             class="form-control"
+                                        />
+                                    </div>
+                                    <div class="col-12 mt-3">
+                                        <label
+                                            for="personalNote"
+                                            class="form-label"
+                                            >Personal Note</label
+                                        >
+                                        <input
+                                            type="text"
+                                            name="personalNote"
+                                            id="personalNote"
+                                            class="form-control"
+                                            placeholder="A Couple of words."
                                         />
                                     </div>
                                 </div>
@@ -925,7 +940,9 @@
                                     </svg>
                                     Battery
                                 </h5>
-                                <small>Battery Monitor & Health</small>
+                                <small>Battery Monitor & Health <br>
+                                Max Voltage on input pin is 3.3V.
+                                Calculate voltage divider accordingly.</small>
                             </div>
                             <div class="col-9 mt-2">
                                 <div class="row mt-2">
@@ -989,6 +1006,15 @@
                                                 >
                                             </div>
                                         </div>
+                                        <div class="col">
+                                            <label for="battery.externalR1" class="form-label">External Voltage divider R1</label>
+                                            <div class="input-group">
+                                                <input type="number" name="battery.externalR1"
+                                                    id="battery.externalR1" placeholder="R1" class="form-control"
+                                                    step="0.1" min="1" max="1000" />
+                                                <span class="input-group-text">kOhm</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-floating col-7">
@@ -1036,6 +1062,13 @@
                                                 <span class="input-group-text"
                                                     >volts</span
                                                 >
+                                            </div>
+                                            <div class="col">
+                                                <label for="battery.externalR2" class="form-label">External Voltage divider R2</label>
+                                                <div class="input-group">
+                                                    <input type="number" name="battery.externalR2" id="battery.externalR2" placeholder="R2" class="form-control" step="0.1" min="1" max="1000" />
+                                                    <span class="input-group-text">kOhm</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1339,7 +1372,7 @@
                                                 type="number"
                                                 name="other.rebootModeTime"
                                                 id="other.rebootModeTime"
-                                                placeholder="0"
+                                                placeholder="6"
                                                 class="form-control"
                                                 step="6"
                                                 min="6"

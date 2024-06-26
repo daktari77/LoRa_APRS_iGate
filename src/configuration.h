@@ -75,6 +75,8 @@ public:
     int     externalVoltagePin;
     bool    monitorExternalVoltage;
     float   externalSleepVoltage;
+    float   externalR1;
+    float   externalR2;
 };
 
 class BME {
@@ -114,6 +116,7 @@ public:
     bool                    backupDigiMode;
     bool                    rebootMode;
     int                     rebootModeTime;
+    String                  personalNote;
     std::vector<WiFi_AP>    wifiAPs;
     WiFi_Auto_AP            wifiAutoAP;
     BEACON                  beacon;
