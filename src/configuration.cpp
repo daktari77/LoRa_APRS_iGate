@@ -335,11 +335,11 @@ void Configuration::init() {
     bme.heightCorrection        = 0;
     bme.temperatureCorrection   = 0.0;
 
-    ota.username                = "";
-    ota.password                = "";
+    ota.username                    = "";
+    ota.password                    = "";
 
     
-    rememberStationTime         = 30;
+    rememberStationTime             = 30;
 
     battery.sendInternalVoltage     = false;
     battery.monitorInternalVoltage  = false;
